@@ -1,0 +1,48 @@
+# ninja log v6
+291	339	7659828333764434	application/CMakeFiles/application.dir/application.cpp.obj.modmap	a6ad0de6aedb6a99
+43	81	7659828331288313	wrapper/CMakeFiles/wrapper.dir/wrapper.cpp.obj.modmap	8931f4add628a519
+6	154	7659828330917419	application/CMakeFiles/application.dir/application.cpp.obj.ddi	2cf54d6b30d61b7a
+291	339	7659828333764434	application/CMakeFiles/application.dir/CXX.dd	a6ad0de6aedb6a99
+345	1814	7659828334296775	application/CMakeFiles/application.dir/camera/camera.cpp.obj	75d5657e7e37cf27
+295	333	7659828333804342	glframework/CMakeFiles/gl_framework.dir/texture.cpp.obj.modmap	43f6ec3519b216ea
+43	81	7659828331288313	wrapper/CMakeFiles/wrapper.dir/CXX.dd	8931f4add628a519
+5	253	7657459818586388	glframework/CMakeFiles/gl_framework.dir/shader.cpp.obj.ddi	50660cff9f86e026
+35	295	7659828331207299	glframework/CMakeFiles/gl_framework.dir/texture.cpp.obj.ddi	3ea896587062823c
+1906	1996	7659828349913310	glframework/gl_framework.lib	c809655000658196
+4	196	7652230591821802	wrapper/CMakeFiles/wrapper.dir/wrapper.cpp.obj.ddi	727467d6a545a39d
+291	339	7659828333764434	D:/Work Space/C++/clion/opengl1/cmake-build-debug-visualstudio/application/CMakeFiles/application.dir/CXXModules.json	a6ad0de6aedb6a99
+22	286	7659828331066356	application/CMakeFiles/application.dir/camera/orthographic_camera.cpp.obj.ddi	9d4fcea91071731c
+38	328	7659828331242811	CMakeFiles/glStudy.dir/main.cpp.obj.ddi	118331d75902c0ab
+362	1816	7659828334476984	application/CMakeFiles/application.dir/camera/perspective_camera.cpp.obj	13ee2fd032347cae
+295	333	7659828333804342	glframework/CMakeFiles/gl_framework.dir/CXX.dd	43f6ec3519b216ea
+372	2180	7659828334569105	CMakeFiles/glStudy.dir/main.cpp.obj	818278557e59ce7f
+328	371	7659828334132382	D:/Work Space/C++/clion/opengl1/cmake-build-debug-visualstudio/CMakeFiles/glStudy.dir/CXXModules.json	1ff139aec193c459
+295	333	7659828333804342	D:/Work Space/C++/clion/opengl1/cmake-build-debug-visualstudio/glframework/CMakeFiles/gl_framework.dir/CXXModules.json	43f6ec3519b216ea
+295	333	7659828333804342	glframework/CMakeFiles/gl_framework.dir/shader.cpp.obj.modmap	43f6ec3519b216ea
+349	1858	7659828334347414	application/CMakeFiles/application.dir/camera/camera_controller.cpp.obj	105ce59df334370
+43	81	7659828331288313	D:/Work Space/C++/clion/opengl1/cmake-build-debug-visualstudio/wrapper/CMakeFiles/wrapper.dir/CXXModules.json	8931f4add628a519
+328	371	7659828334132382	CMakeFiles/glStudy.dir/CXX.dd	1ff139aec193c459
+328	371	7659828334132382	CMakeFiles/glStudy.dir/main.cpp.obj.modmap	1ff139aec193c459
+47	543	7652230592251765	thirdParty/CMakeFiles/glad.dir/src/glad/glad.c.obj	bcc7b2ab88c61491
+340	1173	7659828334253710	application/CMakeFiles/application.dir/application.cpp.obj	606ede422ce8575d
+31	291	7659828331167277	application/CMakeFiles/application.dir/camera/track_ball_controller.cpp.obj.ddi	1048ca35dac1c52f
+543	687	7652230597218809	thirdParty/glad.lib	7d47d0f70b857f64
+1875	1930	7659828349605344	application/application.lib	cd97d9acae01a292
+334	1906	7659828334191960	glframework/CMakeFiles/gl_framework.dir/texture.cpp.obj	44482581d771a2e6
+229	927	7652230594079860	wrapper/CMakeFiles/wrapper.dir/wrapper.cpp.obj	bb56080416b83aea
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/camera_controller.cpp.obj.modmap	a6ad0de6aedb6a99
+305	1317	7657459821585437	glframework/CMakeFiles/gl_framework.dir/shader.cpp.obj	7ec69a46b86744c
+927	986	7652230601059360	wrapper/wrapper.lib	8599174511fa3f77
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/perspective_camera.cpp.obj.modmap	a6ad0de6aedb6a99
+2180	2756	7659828352658951	glStudy.exe	1d63ce9d33bebdd2
+10	253	7659828330948437	application/CMakeFiles/application.dir/camera/camera.cpp.obj.ddi	ebf4713c440ed737
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/game_camera_controller.cpp.obj.modmap	a6ad0de6aedb6a99
+13	287	7659828330983936	application/CMakeFiles/application.dir/camera/camera_controller.cpp.obj.ddi	b2979d3f51f98dc8
+17	289	7659828331023917	application/CMakeFiles/application.dir/camera/game_camera_controller.cpp.obj.ddi	7faddfd0b1ac9933
+358	1827	7659828334438670	application/CMakeFiles/application.dir/camera/orthographic_camera.cpp.obj	3dde70b2b9a3c186
+26	289	7659828331116312	application/CMakeFiles/application.dir/camera/perspective_camera.cpp.obj.ddi	bc72b6c43cb59bc6
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/camera.cpp.obj.modmap	a6ad0de6aedb6a99
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/orthographic_camera.cpp.obj.modmap	a6ad0de6aedb6a99
+291	339	7659828333764434	application/CMakeFiles/application.dir/camera/track_ball_controller.cpp.obj.modmap	a6ad0de6aedb6a99
+366	1839	7659828334516899	application/CMakeFiles/application.dir/camera/track_ball_controller.cpp.obj	cc6740a68426ca12
+353	1875	7659828334389552	application/CMakeFiles/application.dir/camera/game_camera_controller.cpp.obj	e2da387679d14a82
