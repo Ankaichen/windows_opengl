@@ -21,6 +21,14 @@ std::unique_ptr<CameraController> cameraController{nullptr};
 std::shared_ptr<Camera> camera{nullptr};
 std::unique_ptr<Geometry> geometry{nullptr};
 
+// 平行光
+glm::vec3 lightDirection(-1.0f, -0.3f, -0.7f);
+glm::vec3 lightColor(1.f, 1.f, 1.f);
+float specularIntensity = 0.5f;
+// 环境光
+glm::vec3 ambientColor(0.2f, 0.2f, 0.2f);
+
+
 void setCallback() {
     // 窗口大小调整的回调函数
     app.setResizeCallback([](int width, int height) -> void {
@@ -59,14 +67,15 @@ void preTransform() {
 }
 
 void doTransform() {
-    float angle = 0.f;
+    float angle = 0.2f;
     transform = glm::rotate(transform, glm::radians(angle), glm::vec3{0.f, 0.f, 1.f});
     transform = glm::rotate(transform, glm::radians(angle / 3), glm::vec3{0.f, 1.f, 0.f});
 }
 
 void prepareVAO() {
-    geometry = Geometry::createBox(2.f);
-//    geometry = Geometry::createSphere(2.f, 50, 50);
+//    geometry = Geometry::createPlane(2.f, 3.f);
+//    geometry = Geometry::createBox(2.f);
+    geometry = Geometry::createSphere(2.f, 50, 50);
 }
 
 void prepareShader() {
@@ -75,11 +84,12 @@ void prepareShader() {
 
 void prepareTexture() {
 //    texture = std::make_unique<Texture>("assets/textures/back.png", 0);
-    texture = std::make_unique<Texture>("assets/textures/goku.jpg", 0);
+//    texture = std::make_unique<Texture>("assets/textures/goku.jpg", 0);
 //    glassTexture = new Texture("assets/textures/glass.jpg", 0);
 //    landTexture = new Texture("assets/textures/land.jpg", 1);
 //    noiseTexture = new Texture("assets/textures/noise.jpg", 2);
 //    texture = std::make_unique<Texture>("assets/textures/ge.jpg", 0);
+    texture = std::make_unique<Texture>("assets/textures/earth.jpg", 0);
 }
 
 void prepareCamera() {
@@ -114,9 +124,17 @@ void render() {
     // 绑定program
     shader->begin();
     shader->setInt("sampler", 0);
-    shader->setMatrix4x4("transform", transform);
+    shader->setMatrix4x4("modelMatrix", transform);
+    shader->setMatrix3x3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(transform))));
     shader->setMatrix4x4("viewMatrix", camera->getViewMatrix());
     shader->setMatrix4x4("projectionMatrix", camera->getProjectionMatrix());
+    shader->setVector3f("cameraPosition", camera->getPosition());
+
+    // light
+    shader->setVector3f("lightDirection", lightDirection);
+    shader->setVector3f("lightColor", lightColor);
+    shader->setFloat("specularIntensity", specularIntensity);
+    shader->setVector3f("ambientColor", ambientColor);
 
     texture->bind();
     // 绑定ebo

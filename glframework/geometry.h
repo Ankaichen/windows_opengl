@@ -23,8 +23,12 @@ public:
     ~Geometry();
 
     inline GLuint getVao() const { return this->mVao; }
+
     inline GLuint getEbo() const { return this->mEbo; }
+
     inline uint32_t getIndicesCount() const { return this->mIndicesCount; }
+
+    static std::unique_ptr<Geometry> createPlane(float width, float height);
 
     static std::unique_ptr<Geometry> createBox(float size);
 
@@ -34,6 +38,7 @@ private:
     GLuint mVao{0};
     GLuint mPosVbo{0};
     GLuint mUvVbo{0};
+    GLuint mNormalVbo{0};
     GLuint mEbo{0};
 
     uint32_t mIndicesCount{0};

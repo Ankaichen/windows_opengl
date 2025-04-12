@@ -111,15 +111,21 @@ void Shader::setFloat(std::string_view name, GLfloat value) const {
     GL_CALL(glUniform1f(location, value));
 }
 
-void Shader::setVec3f(std::string_view name, GLfloat value0, GLfloat value1, GLfloat value2) const {
+void Shader::setVector3f(std::string_view name, GLfloat value0, GLfloat value1, GLfloat value2) const {
     GL_CALL(GLint location{glGetUniformLocation(this->mProgram, name.data())});
     GL_CALL(glUniform3f(location, value0, value1, value2));
 }
 
-void Shader::setVec3f(std::string_view name, const GLfloat *values) const {
+void Shader::setVector3f(std::string_view name, const GLfloat *values) const {
     GL_CALL(GLint location{glGetUniformLocation(this->mProgram, name.data())});
     // 第二个参数：你当前要更新的uniform变量如果是数组，数组里面包括多少个向量vec3
     GL_CALL(glUniform3fv(location, 1, values));
+}
+
+void Shader::setVector3f(std::string_view name, const glm::vec3 &value) const {
+    GL_CALL(GLint location{glGetUniformLocation(this->mProgram, name.data())});
+    // 第二个参数：你当前要更新的uniform变量如果是数组，数组里面包括多少个向量vec3
+    GL_CALL(glUniform3fv(location, 1, glm::value_ptr(value)));
 }
 
 void Shader::setInt(std::string_view name, GLint value) const {
@@ -127,7 +133,12 @@ void Shader::setInt(std::string_view name, GLint value) const {
     GL_CALL(glUniform1i(location, value));
 }
 
-void Shader::setMatrix4x4(std::string_view name, glm::mat4 value) const {
+void Shader::setMatrix3x3(std::string_view name, const glm::mat3 &value) const {
+    GL_CALL(GLint location{glGetUniformLocation(this->mProgram, name.data())});
+    GL_CALL(glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value)));
+}
+
+void Shader::setMatrix4x4(std::string_view name, const glm::mat4 &value) const {
     GL_CALL(GLint location{glGetUniformLocation(this->mProgram, name.data())});
     GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value)));
 }
