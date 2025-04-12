@@ -49,24 +49,23 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     GL_CALL(glShaderSource(fragmentShader, 1, &fragmentCodeChar, nullptr));
     // 编译shader
     GL_CALL(glCompileShader(vertexShader));
-    this->checkShaderErrors(vertexShader, GL_COMPILE_STATUS);
+    Shader::checkShaderErrors(vertexShader, GL_COMPILE_STATUS);
     GL_CALL(glCompileShader(fragmentShader));
-    this->checkShaderErrors(fragmentShader, GL_COMPILE_STATUS);
+    Shader::checkShaderErrors(fragmentShader, GL_COMPILE_STATUS);
     // 创建program
     GL_CALL(this->mProgram = glCreateProgram());
     // 链接
     GL_CALL(glAttachShader(this->mProgram, vertexShader));
     GL_CALL(glAttachShader(this->mProgram, fragmentShader));
     GL_CALL(glLinkProgram(this->mProgram));
-    this->checkShaderErrors(this->mProgram, GL_LINK_STATUS);
+    Shader::checkShaderErrors(this->mProgram, GL_LINK_STATUS);
     // 删除shader
     GL_CALL(glDeleteShader(vertexShader));
     GL_CALL(glDeleteShader(fragmentShader));
 
 }
 
-Shader::~Shader() {
-}
+Shader::~Shader() noexcept = default;
 
 void Shader::begin() {
     GL_CALL(glUseProgram(this->mProgram));
@@ -78,7 +77,7 @@ void Shader::end() {
     this->mIsUsing = false;
 }
 
-void Shader::checkShaderErrors(GLuint target, GLenum type) const {
+void Shader::checkShaderErrors(GLuint target, GLenum type) {
     int success{0};
     char infoLog[1024];
     switch (type) {

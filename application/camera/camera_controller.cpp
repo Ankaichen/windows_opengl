@@ -12,21 +12,21 @@
 
 #include "camera.h"
 
-CameraController::CameraController(const std::shared_ptr<Camera> &camera, float sensitivity, float scale_speed)
-        : mCamera{camera}, mSensitivity{sensitivity}, mScaleSpeed{scale_speed} {
+CameraController::CameraController(const std::shared_ptr<Camera> &camera, float sensitivity, float scaleSpeed)
+        : mCamera{camera}, mSensitivity{sensitivity}, mScaleSpeed{scaleSpeed} {
 }
 
-CameraController::CameraController(std::shared_ptr<Camera> &&camera, float sensitivity, float scale_speed)
-        : mCamera{std::move(camera)}, mSensitivity{sensitivity}, mScaleSpeed{scale_speed} {
+CameraController::CameraController(std::shared_ptr<Camera> &&camera, float sensitivity, float scaleSpeed)
+        : mCamera{std::move(camera)}, mSensitivity{sensitivity}, mScaleSpeed{scaleSpeed} {
 }
 
-CameraController::~CameraController() {}
+CameraController::~CameraController() noexcept = default;
 
 void CameraController::onMouse(int button, int action, double xpos, double ypos) const {
     bool pressed = (action == GLFW_PRESS);
     if (pressed) {
-        this->mCurrentX = xpos;
-        this->mCurrentY = ypos;
+        this->mCurrentX = static_cast<float>(xpos);
+        this->mCurrentY = static_cast<float>(ypos);
     }
     switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
@@ -37,6 +37,8 @@ void CameraController::onMouse(int button, int action, double xpos, double ypos)
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             this->mRightMouseDown = pressed;
+            break;
+        default:
             break;
     }
 }

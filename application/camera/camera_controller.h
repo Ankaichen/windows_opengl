@@ -22,10 +22,10 @@ class CameraController {
 public:
     CameraController() = default;
 
-    CameraController(const std::shared_ptr<Camera> &camera, float sensitivity, float scale_speed);
-    CameraController(std::shared_ptr<Camera> &&camera, float sensitivity, float scale_speed);
+    CameraController(const std::shared_ptr<Camera> &camera, float sensitivity, float scaleSpeed);
+    CameraController(std::shared_ptr<Camera> &&camera, float sensitivity, float scaleSpeed);
 
-    virtual ~CameraController() = 0;
+    virtual ~CameraController() noexcept = 0;
 
     virtual void onMouse(int button, int action, double xpos, double ypos) const;
 
@@ -42,7 +42,7 @@ public:
 
     inline void setSensitivity(float sensitivity) { this->mSensitivity = sensitivity; }
 
-    inline void setScale(float scale_speed) { this->mScaleSpeed = scale_speed; }
+    inline void setScale(float scaleSpeed) { this->mScaleSpeed = scaleSpeed; }
 
 protected:
     std::shared_ptr<Camera> mCamera{nullptr};

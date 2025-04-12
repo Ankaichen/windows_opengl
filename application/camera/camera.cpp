@@ -10,7 +10,7 @@
 
 #include "camera.h"
 
-Camera::Camera(const glm::vec3 &position, const glm::vec3 &up_vec, const glm::vec3 &right_vec)
-        : mPosition{position}, mUpVec{up_vec}, mRightVec{right_vec} {}
+Camera::Camera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec)
+        : mPosition{position}, mUpVec{upVec}, mRightVec{rightVec} {}
 
-Camera::~Camera() {}
+Camera::~Camera() noexcept {}

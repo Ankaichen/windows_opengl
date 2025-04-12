@@ -19,16 +19,16 @@ public:
 
     PerspectiveCamera(float fovy, float aspect, float near, float far);
 
-    PerspectiveCamera(const glm::vec3 &position, const glm::vec3 &up_vec, const glm::vec3 &right_vec, float fovy,
+    PerspectiveCamera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec, float fovy,
                       float aspect, float near, float far);
 
-    ~PerspectiveCamera() override {};
+    ~PerspectiveCamera() noexcept override = default;
 
-    inline glm::mat4 getProjectionMatrix() const override {
+    [[nodiscard]] inline glm::mat4 getProjectionMatrix() const override {
         return glm::perspective(glm::radians(this->mFovy), this->mAspect, this->mNear, this->mFar);
     }
 
-    void scale(float delta_scale) override;
+    void scale(float deltaScale) override;
 
 private:
     float mFovy{0.f};

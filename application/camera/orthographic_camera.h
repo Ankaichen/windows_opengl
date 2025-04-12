@@ -19,17 +19,17 @@ public:
 
     OrthographicCamera(float left, float right, float bottom, float top, float near, float far);
 
-    OrthographicCamera(const glm::vec3 &position, const glm::vec3 &up_vec, const glm::vec3 &right_vec, float left,
+    OrthographicCamera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec, float left,
                        float right, float bottom, float top, float near, float far);
 
-    ~OrthographicCamera() override = default;
+    ~OrthographicCamera() noexcept override = default;
 
-    inline glm::mat4 getProjectionMatrix() const override {
+    [[nodiscard]] inline glm::mat4 getProjectionMatrix() const override {
         float scale{std::pow(2.f, this->mScale)};
         return glm::ortho(this->mLeft * scale, this->mRight * scale, this->mBottom * scale, this->mTop * scale, this->mNear, this->mFar);
     }
 
-    void scale(float delta_scale) override;
+    void scale(float deltaScale) override;
 
 private:
     float mLeft{-1.f};

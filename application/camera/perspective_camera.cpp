@@ -14,12 +14,12 @@ PerspectiveCamera::PerspectiveCamera(float fovy, float aspect, float near, float
         : Camera(), mFovy{fovy}, mAspect{aspect}, mNear{near}, mFar{far} {
 }
 
-PerspectiveCamera::PerspectiveCamera(const glm::vec3 &position, const glm::vec3 &up_vec, const glm::vec3 &right_vec,
+PerspectiveCamera::PerspectiveCamera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec,
                                      float fovy, float aspect, float near, float far)
-        : Camera{position, up_vec, right_vec}, mFovy{fovy}, mAspect{aspect}, mNear{near}, mFar{far} {
+        : Camera{position, upVec, rightVec}, mFovy{fovy}, mAspect{aspect}, mNear{near}, mFar{far} {
 }
 
-void PerspectiveCamera::scale(float delta_scale) {
+void PerspectiveCamera::scale(float deltaScale) {
     glm::vec3 front = glm::cross(this->mRightVec, this->mUpVec);
-    this->mPosition += (front * delta_scale);
+    this->mPosition += (front * deltaScale);
 }

@@ -21,6 +21,8 @@ public:
 
     GameCameraController(std::shared_ptr<Camera> &&camera, float sensitivity, float scale, float speed);
 
+    ~GameCameraController() noexcept override = default;
+
     void onCurse(double xpos, double ypos) const override;
 
     void update() const override;

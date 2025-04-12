@@ -13,6 +13,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <string_view>
 
 #define app (Application::getInstance())
 
@@ -26,7 +27,7 @@ using ScrollCallback = std::function<void(double, double)>;
 
 class Application {
 public:
-    ~Application() = default;
+    ~Application() noexcept = default;
 
     static Application &getInstance();
 
@@ -34,27 +35,27 @@ public:
 
     [[nodiscard]] uint32_t getHeight() const { return this->mHeight; }
 
-    void getCursorPosition(double &xpos, double &ypos) const;
+    void getCursorPosition(double &xPos, double &yPos) const;
 
-    bool init(const uint32_t &width, const uint32_t &height, const char *title);
+    bool init(const uint32_t &width, const uint32_t &xPos, std::string_view yPos);
 
     bool update();
 
-    void destroy();
+    static void destroy();
 
-    void setResizeCallback(const ResizeCallback &resizeCallback) { this->mResizeCallback = resizeCallback; }
+    inline void setResizeCallback(const ResizeCallback &resizeCallback) { this->mResizeCallback = resizeCallback; }
 
-    void setKeyCallback(const KeyCallBack &keyCallBack) { this->mKeyCallback = keyCallBack; }
+    inline void setKeyCallback(const KeyCallBack &keyCallBack) { this->mKeyCallback = keyCallBack; }
 
-    void setMouseButtonCallback(const MouseButtonCallback &mouseButtonCallback) {
+    inline void setMouseButtonCallback(const MouseButtonCallback &mouseButtonCallback) {
         this->mMouseButtonCallback = mouseButtonCallback;
     }
 
-    void setCursorPosCallback(const CursorPosCallback &cursorPosCallback) {
+    inline void setCursorPosCallback(const CursorPosCallback &cursorPosCallback) {
         this->mCursorPosCallback = cursorPosCallback;
     }
 
-    void setScrollCallback(const ScrollCallback &scrollCallback) {
+    inline void setScrollCallback(const ScrollCallback &scrollCallback) {
         this->mScrollCallback = scrollCallback;
     }
 

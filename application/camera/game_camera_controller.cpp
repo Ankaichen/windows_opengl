@@ -25,11 +25,11 @@ GameCameraController::GameCameraController(std::shared_ptr<Camera> &&camera, flo
 void GameCameraController::onCurse(double xpos, double ypos) const {
     if (this->mLeftMouseDown) {
         double delta_x{xpos - this->mCurrentX}, delta_y{ypos - this->mCurrentY};
-        this->pitch(delta_y * this->mSensitivity);
-        this->yaw(delta_x * this->mSensitivity);
+        this->pitch(static_cast<float>(delta_y) * this->mSensitivity);
+        this->yaw(static_cast<float>(delta_x) * this->mSensitivity);
     }
-    this->mCurrentX = xpos;
-    this->mCurrentY = ypos;
+    this->mCurrentX = static_cast<float>(xpos);
+    this->mCurrentY = static_cast<float>(ypos);
 }
 
 void GameCameraController::update() const {

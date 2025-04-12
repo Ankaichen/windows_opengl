@@ -19,7 +19,7 @@ Application &Application::getInstance() {
     return application;
 }
 
-bool Application::init(const uint32_t &width, const uint32_t &height, const char *title) {
+bool Application::init(const uint32_t &width, const uint32_t &height, std::string_view title) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 主版本号
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6); // 次版本号
@@ -32,7 +32,7 @@ bool Application::init(const uint32_t &width, const uint32_t &height, const char
     this->mWindow = glfwCreateWindow(
             static_cast<int>(this->mWidth),
             static_cast<int>(this->mHeight),
-            title, nullptr, nullptr
+            title.data(), nullptr, nullptr
     );
     if (this->mWindow == nullptr) {
         return false;
@@ -76,19 +76,19 @@ bool Application::init(const uint32_t &width, const uint32_t &height, const char
     // 鼠标移动事件响应
     glfwSetCursorPosCallback(
             this->mWindow,
-            [](GLFWwindow *window, double xpos, double ypos) -> void {
+            [](GLFWwindow *window, double xPos, double yPos) -> void {
                 auto *self = reinterpret_cast<Application *>(glfwGetWindowUserPointer(window));
                 if (self->mCursorPosCallback != nullptr) {
-                    self->mCursorPosCallback(xpos, ypos);
+                    self->mCursorPosCallback(xPos, yPos);
                 }
             });
 
     glfwSetScrollCallback(
             this->mWindow,
-            [] (GLFWwindow* window, double xoffset, double yoffset) {
+            [] (GLFWwindow* window, double xOffset, double yOffset) {
                 auto *self = reinterpret_cast<Application *>(glfwGetWindowUserPointer(window));
                 if (self->mScrollCallback != nullptr) {
-                    self->mScrollCallback(xoffset, yoffset);
+                    self->mScrollCallback(xOffset, yOffset);
                 }
             });
 
@@ -105,6 +105,6 @@ void Application::destroy() {
     glfwTerminate();
 }
 
-void Application::getCursorPosition(double &xpos, double &ypos) const {
-    glfwGetCursorPos(this->mWindow, &xpos, &ypos);
+void Application::getCursorPosition(double &xPos, double &yPos) const {
+    glfwGetCursorPos(this->mWindow, &xPos, &yPos);
 }

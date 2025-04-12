@@ -21,29 +21,29 @@ public:
 
     Camera() = default;
 
-    Camera(const glm::vec3 &position, const glm::vec3 &up_vec, const glm::vec3 &right_vec);
+    Camera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec);
 
-    virtual ~Camera() = 0;
+    virtual ~Camera() noexcept = 0;
 
-    inline glm::vec3 getPosition() const { return this->mPosition; }
+    [[nodiscard]] inline glm::vec3 getPosition() const { return this->mPosition; }
 
     inline void setPosition(const glm::vec3 &position) { this->mPosition = position; }
 
-    inline glm::vec3 getUpVec() const { return this->mUpVec; }
+    [[nodiscard]] inline glm::vec3 getUpVec() const { return this->mUpVec; }
 
-    inline void setUpVec(const glm::vec3 &up_vec) { this->mUpVec = up_vec; }
+    inline void setUpVec(const glm::vec3 &upVec) { this->mUpVec = upVec; }
 
-    inline glm::vec3 getRightVec() const { return this->mRightVec; }
+    [[nodiscard]] inline glm::vec3 getRightVec() const { return this->mRightVec; }
 
-    inline void setRightVec(const glm::vec3 &right_vec) { this->mRightVec = right_vec; }
+    inline void setRightVec(const glm::vec3 &rightVec) { this->mRightVec = rightVec; }
 
-    inline glm::mat4 getViewMatrix() const {
+    [[nodiscard]] inline glm::mat4 getViewMatrix() const {
         return glm::lookAt(this->mPosition, glm::cross(this->mUpVec, this->mRightVec) + this->mPosition, this->mUpVec);
     };
 
-    virtual inline glm::mat4 getProjectionMatrix() const = 0;
+    [[nodiscard]] virtual inline glm::mat4 getProjectionMatrix() const = 0;
 
-    virtual inline void scale(float delta_scale) = 0;
+    virtual inline void scale(float deltaScale) = 0;
 
 protected:
     glm::vec3 mPosition{0.f, 0.f, 1.f};

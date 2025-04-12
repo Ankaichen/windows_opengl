@@ -57,7 +57,7 @@ void setCallback() {
 
     app.setScrollCallback([](double xoffset, double yoffset) -> void {
         if (cameraController != nullptr) {
-            cameraController->onScroll(yoffset);
+            cameraController->onScroll(static_cast<float>(yoffset));
         }
     });
 }

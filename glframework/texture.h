@@ -17,18 +17,20 @@
 class Texture {
 public:
     Texture(std::string_view filename, GLuint unit);
-    ~Texture();
 
-    int getWidth() const { return this->mWidth; }
-    int getHeight() const { return this->mHeight; }
+    ~Texture() noexcept;
+
+    [[nodiscard]] inline int getWidth() const { return this->mWidth; }
+
+    [[nodiscard]] inline int getHeight() const { return this->mHeight; }
 
     void bind() const;
 
 private:
-    int mWidth;
-    int mHeight;
-    GLuint mUnit{0 };
-    GLuint mTexture{ 0 };
+    int mWidth{0};
+    int mHeight{0};
+    GLuint mUnit{0};
+    GLuint mTexture{0};
 };
 
 

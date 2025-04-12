@@ -15,11 +15,11 @@
 #include "glad/glad.h"
 
 bool glCheckError() {
-    GLenum error_code = glGetError();
-    if (error_code != GL_NO_ERROR) {
+    GLenum errorCode = glGetError();
+    if (errorCode != GL_NO_ERROR) {
         std::stringstream ss;
-        ss << "error " << error_code;
-        switch (error_code) {
+        ss << "error " << errorCode;
+        switch (errorCode) {
             case GL_INVALID_ENUM:
                 ss << ": invalid enum";
                 break;
