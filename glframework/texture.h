@@ -24,6 +24,8 @@ public:
 
     [[nodiscard]] inline int getHeight() const { return this->mHeight; }
 
+    [[nodiscard]] inline GLuint getUnit() const { return this->mUnit; }
+
     void bind() const;
 
 private:

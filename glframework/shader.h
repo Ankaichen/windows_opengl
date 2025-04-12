@@ -17,7 +17,7 @@
 
 class Shader {
 public:
-    Shader(const char *vertexPath, const char *fragmentPath);
+    Shader(std::string_view vertexPath, std::string_view fragmentPath);
 
     ~Shader() noexcept;
 

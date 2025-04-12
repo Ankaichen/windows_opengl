@@ -17,9 +17,11 @@ class AmbientLight : public Light {
 public:
     AmbientLight() = default;
 
-    AmbientLight(const glm::vec3 &color, float specularIntensity);
+    AmbientLight(const glm::vec3 &color);
 
     ~AmbientLight() noexcept override;
+
+    void addUniformToShader(Shader &shader) const override;
 };
 
 

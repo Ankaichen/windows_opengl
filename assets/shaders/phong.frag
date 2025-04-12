@@ -12,6 +12,7 @@ uniform vec3 lightColor;
 uniform vec3 cameraPosition;
 uniform float specularIntensity;
 uniform vec3 ambientColor;
+uniform float shiness;
 
 void main() {
     vec3 objectColor = texture(sampler, uv).xyz;
@@ -27,7 +28,7 @@ void main() {
     float flag = step(0.000000001f, dotResult);
     vec3 lightRef = normalize(reflect(lightDirectionN, normalN));
     float specular = clamp(dot(lightRef, -viewDirectionN), 0.f, 1.f);
-    specular = pow(specular, 32); // 控制光斑大小
+    specular = pow(specular, shiness); // 控制光斑大小
     vec3 specularColor = flag * specularIntensity * specular * lightColor;
     // 环境光
 

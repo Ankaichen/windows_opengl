@@ -14,8 +14,9 @@
 #include <iostream>
 
 #include "../../glframework/core.h"
+#include "../../glframework/shader_uniformer.h"
 
-class Camera {
+class Camera : public ShaderUniformer {
 
 public:
 
@@ -44,6 +45,8 @@ public:
     [[nodiscard]] virtual inline glm::mat4 getProjectionMatrix() const = 0;
 
     virtual inline void scale(float deltaScale) = 0;
+
+    void addUniformToShader(Shader &shader) const override;
 
 protected:
     glm::vec3 mPosition{0.f, 0.f, 1.f};

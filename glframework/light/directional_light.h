@@ -20,11 +20,13 @@ public:
 
     DirectionalLight(const glm::vec3 &color, float specularIntensity, const glm::vec3 &direction);
 
-    ~DirectionalLight() noexcept;
+    ~DirectionalLight() noexcept override;
 
     inline void setDirection(const glm::vec3 &direction) { this->mDirection = direction; }
 
     [[nodiscard]] inline glm::vec3 getDirection() const { return this->mDirection; }
+
+    void addUniformToShader(Shader &shader) const override;
 
 private:
     glm::vec3 mDirection{-1.f};

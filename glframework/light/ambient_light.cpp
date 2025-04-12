@@ -10,9 +10,15 @@
 
 #include "ambient_light.h"
 
-AmbientLight::AmbientLight(const glm::vec3 &color, float specularIntensity)
-        : Light{color, specularIntensity} {
+#include "../shader.h"
+
+AmbientLight::AmbientLight(const glm::vec3 &color)
+        : Light{color, 0.f} {
 }
 
 AmbientLight::~AmbientLight() noexcept {
+}
+
+void AmbientLight::addUniformToShader(Shader &shader) const {
+    shader.setVector3f("ambientColor", this->getColor());
 }

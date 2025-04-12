@@ -31,6 +31,8 @@ public:
 
     inline void setScale(const glm::vec3 &scale) { this->mScale = scale; }
 
+    [[nodiscard]] inline glm::vec3 getPosition() const { return this->mPosition; }
+
     [[nodiscard]] glm::mat4 getModelMatrix() const;
 
 protected:

@@ -13,8 +13,9 @@
 
 
 #include "../core.h"
+#include "../shader_uniformer.h"
 
-class Light {
+class Light : public ShaderUniformer {
 public:
     Light() = default;
 

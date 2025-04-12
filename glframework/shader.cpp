@@ -17,15 +17,15 @@
 
 #include "../wrapper/wrapper.h"
 
-Shader::Shader(const char *vertexPath, const char *fragmentPath) {
+Shader::Shader(std::string_view vertexPath, std::string_view fragmentPath) {
     std::string vertexCode, fragmentCode;
     std::ifstream vertexFile, fragmentFile;
     // 保证ifstream遇到问题的时候可以抛出异常
     vertexFile.exceptions(std::ios::failbit | std::ios::badbit);
     fragmentFile.exceptions(std::ios::failbit | std::ios::badbit);
     try { // 读取shader源代码
-        vertexFile.open(vertexPath, std::ios::in);
-        fragmentFile.open(fragmentPath, std::ios::in);
+        vertexFile.open(vertexPath.data(), std::ios::in);
+        fragmentFile.open(fragmentPath.data(), std::ios::in);
 
         std::stringstream vertexStream, fragmentStream;
         vertexStream << vertexFile.rdbuf();

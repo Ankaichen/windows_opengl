@@ -13,15 +13,16 @@
 
 #include <memory>
 
+#include "material.h"
 #include "../texture.h"
 
-class PhongMaterial {
+class PhongMaterial : public Material {
 public:
-    PhongMaterial() = default;
+    PhongMaterial();
 
     PhongMaterial(std::shared_ptr<Texture> diffuse, float shiness);
 
-    ~PhongMaterial() noexcept;
+    ~PhongMaterial() noexcept override;
 
     void setDiffuse(std::shared_ptr<Texture> diffuse) { this->mDiffuse = std::move(diffuse); }
 
@@ -30,6 +31,8 @@ public:
     void setShiness(float shiness) { this->mShiness = shiness; }
 
     [[nodiscard]] float getShiness() const { return this->mShiness; }
+
+    void addUniformToShader(Shader &shader) const override;
 
 private:
     std::shared_ptr<Texture> mDiffuse{nullptr};

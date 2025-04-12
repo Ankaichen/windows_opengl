@@ -10,9 +10,19 @@
 
 #include "phong_material.h"
 
-PhongMaterial::PhongMaterial(std::shared_ptr<Texture> diffuse, float shiness)
-        : mDiffuse{std::move(diffuse)}, mShiness{shiness} {
+#include "../shader.h"
+
+PhongMaterial::PhongMaterial() : Material(MaterialType::PHONG_MATERIAL) {
 }
 
-PhongMaterial::~PhongMaterial() noexcept {
+PhongMaterial::PhongMaterial(std::shared_ptr<Texture> diffuse, float shiness)
+        : Material(MaterialType::PHONG_MATERIAL), mDiffuse{std::move(diffuse)}, mShiness{shiness} {
+}
+
+PhongMaterial::~PhongMaterial() noexcept = default;
+
+void PhongMaterial::addUniformToShader(Shader &shader) const {
+    this->mDiffuse->bind();
+    shader.setInt("sampler", this->mDiffuse->getUnit());
+    shader.setFloat("shiness", this->mShiness);
 }

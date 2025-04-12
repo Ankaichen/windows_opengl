@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file           : material.cpp
+  * @file           : shader_uniformer.cpp
   * @author         : An Kaichen
   * @brief          : None
   * @attention      : None
@@ -8,9 +8,14 @@
   ******************************************************************************
   */
 
-#include "material.h"
+#include "shader_uniformer.h"
 
-Material::Material(MaterialType materialType) : mMaterialType(materialType) {
+#include "shader.h"
+
+ShaderUniformer::~ShaderUniformer() {
 }
 
-Material::~Material() noexcept = default;
+Shader &operator<<(Shader &shader, const ShaderUniformer &shaderUniformer) {
+    shaderUniformer.addUniformToShader(shader);
+    return shader;
+}

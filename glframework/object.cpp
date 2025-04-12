@@ -14,11 +14,10 @@ Object::Object(const glm::vec3 &position, float angleX, float angleY, float angl
         : mPosition{position}, mAngleX{angleX}, mAngleY{angleY}, mAngleZ{angleZ}, mScale{scale} {
 }
 
-Object::~Object() noexcept {
-}
+Object::~Object() noexcept = default;
 
 glm::mat4 Object::getModelMatrix() const {
-    glm::mat4 modelMatrix = glm::identity<glm::mat4>();
+    auto modelMatrix = glm::identity<glm::mat4>();
     modelMatrix = glm::scale(modelMatrix, this->mScale);
     modelMatrix = glm::rotate(modelMatrix, glm::radians(this->mAngleX), glm::vec3{1.f, 0.f, 0.f});
     modelMatrix = glm::rotate(modelMatrix, glm::radians(this->mAngleY), glm::vec3{0.f, 1.f, 0.f});
