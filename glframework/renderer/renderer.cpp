@@ -49,12 +49,10 @@ void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const st
         (*shader) << (*mesh) << (*camera) << (*directionalLight) << (*ambientLight);
         // 绑定VAO
         glBindVertexArray(geometry->getVao());
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry->getEbo());
         // 绘制
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geometry->getIndicesCount()), GL_UNSIGNED_INT, reinterpret_cast<void*>(0));
         shader->end();
         glBindVertexArray(0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 }
 

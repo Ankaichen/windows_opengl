@@ -22,9 +22,9 @@ public:
 public:
     explicit Material(MaterialType materialType);
 
-    virtual ~Material() noexcept = 0;
+    ~Material() noexcept override = 0;
 
-    [[maybe_unused]] inline MaterialType getMaterialType() const { return this->mMaterialType; }
+    [[nodiscard]] inline MaterialType getMaterialType() const { return this->mMaterialType; }
 
 protected:
     const MaterialType mMaterialType{};

@@ -12,8 +12,7 @@
 
 #include "shader.h"
 
-ShaderUniformer::~ShaderUniformer() {
-}
+ShaderUniformer::~ShaderUniformer() = default;
 
 Shader &operator<<(Shader &shader, const ShaderUniformer &shaderUniformer) {
     shaderUniformer.addUniformToShader(shader);

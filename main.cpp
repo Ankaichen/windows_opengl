@@ -61,10 +61,10 @@ void setCallback() {
 }
 
 void doTransform() {
-    meshes[1]->rotateY(1.f);
-    meshes[1]->setPosition(
-            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) * glm::vec4(meshes[1]->getPosition(), 1.f)
-            );
+//    meshes[1]->rotateY(1.f);
+//    meshes[1]->setPosition(
+//            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) * glm::vec4(meshes[1]->getPosition(), 1.f)
+//            );
 }
 
 void prepareCamera() {
@@ -88,13 +88,15 @@ void prepareMeshes() {
     meshes.emplace_back(std::make_shared<Mesh>(
             glm::vec3{0.f, 0.f, 0.f}, 20.f, 30.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createBox(4.f),
-            std::make_shared<PhongMaterial>(std::make_shared<Texture>("assets/textures/ge.jpg", 0), 32.f)
+            std::make_shared<PhongMaterial>(
+                    std::make_shared<Texture>("assets/textures/box.png", 0),
+                    std::make_shared<Texture>("assets/textures/sp_mask.png", 1), 32.f)
     ));
-    meshes.emplace_back(std::make_shared<Mesh>(
-            glm::vec3{5.f, 2.f, 3.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
-            Geometry::createSphere(2.f),
-            std::make_shared<PhongMaterial>(std::make_shared<Texture>("assets/textures/earth.jpg", 0), 32.f)
-    ));
+//    meshes.emplace_back(std::make_shared<Mesh>(
+//            glm::vec3{5.f, 2.f, 3.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
+//            Geometry::createSphere(2.f),
+//            std::make_shared<PhongMaterial>(std::make_shared<Texture>("assets/textures/earth.jpg", 0), nullptr, 32.f)
+//    ));
 }
 
 void prepareLight() {
@@ -108,7 +110,7 @@ void prepareLight() {
 
 void prepareShader() {
     renderer->addShader(MaterialType::PHONG_MATERIAL,
-                        "./assets/shaders/vertex.glsl", "./assets/shaders/fragment.glsl");
+                        "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
 }
 
 void prepare() {

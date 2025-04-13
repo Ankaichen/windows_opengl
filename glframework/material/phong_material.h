@@ -20,13 +20,17 @@ class PhongMaterial : public Material {
 public:
     PhongMaterial();
 
-    PhongMaterial(std::shared_ptr<Texture> diffuse, float shiness);
+    PhongMaterial(std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> specularMask, float shiness);
 
     ~PhongMaterial() noexcept override;
 
     void setDiffuse(std::shared_ptr<Texture> diffuse) { this->mDiffuse = std::move(diffuse); }
 
     [[nodiscard]] std::shared_ptr<Texture> getDiffuse() const { return this->mDiffuse; }
+
+    void setSpecularMask(std::shared_ptr<Texture> specularMask) { this->mSpecularMask = std::move(specularMask); }
+
+    [[nodiscard]] std::shared_ptr<Texture> getSpecularMask() const { return this->mSpecularMask; }
 
     void setShiness(float shiness) { this->mShiness = shiness; }
 
@@ -36,6 +40,7 @@ public:
 
 private:
     std::shared_ptr<Texture> mDiffuse{nullptr};
+    std::shared_ptr<Texture> mSpecularMask{nullptr};
     float mShiness{1.f};
 };
 

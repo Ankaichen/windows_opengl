@@ -15,14 +15,16 @@
 PhongMaterial::PhongMaterial() : Material(MaterialType::PHONG_MATERIAL) {
 }
 
-PhongMaterial::PhongMaterial(std::shared_ptr<Texture> diffuse, float shiness)
-        : Material(MaterialType::PHONG_MATERIAL), mDiffuse{std::move(diffuse)}, mShiness{shiness} {
+PhongMaterial::PhongMaterial(std::shared_ptr<Texture> diffuse, std::shared_ptr<Texture> specularMask, float shiness)
+        : Material(MaterialType::PHONG_MATERIAL), mDiffuse{std::move(diffuse)}, mSpecularMask{std::move(specularMask)},
+          mShiness{shiness} {
 }
 
 PhongMaterial::~PhongMaterial() noexcept = default;
 
 void PhongMaterial::addUniformToShader(Shader &shader) const {
     this->mDiffuse->bind();
-    shader.setInt("sampler", this->mDiffuse->getUnit());
+    shader.setInt("samplerDiffuse", this->mDiffuse->getUnit());
+    shader.setInt("samplerSpecularMask", this->mSpecularMask->getUnit());
     shader.setFloat("shiness", this->mShiness);
 }

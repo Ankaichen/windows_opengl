@@ -6,7 +6,8 @@ in vec2 uv;
 in vec3 normal;
 in vec3 worldPosition;
 
-uniform sampler2D sampler;
+uniform sampler2D samplerDiffuse;
+uniform sampler2D samplerSpecularMask;
 uniform vec3 lightDirection;
 uniform vec3 lightColor;
 uniform vec3 cameraPosition;
@@ -15,7 +16,7 @@ uniform vec3 ambientColor;
 uniform float shiness;
 
 void main() {
-    vec3 objectColor = texture(sampler, uv).xyz;
+    vec3 objectColor = texture(samplerDiffuse, uv).xyz;
     vec3 normalN = normalize(normal);
     vec3 lightDirectionN = normalize(lightDirection);
     vec3 viewDirectionN = normalize(worldPosition - cameraPosition); // 世界坐标系下的视线方向
@@ -29,7 +30,8 @@ void main() {
     vec3 lightRef = normalize(reflect(lightDirectionN, normalN));
     float specular = clamp(dot(lightRef, -viewDirectionN), 0.f, 1.f);
     specular = pow(specular, shiness); // 控制光斑大小
-    vec3 specularColor = flag * specularIntensity * specular * lightColor;
+    float specularMask = texture(samplerSpecularMask, uv).r;
+    vec3 specularColor = flag * specularIntensity * specularMask * specular * lightColor;
     // 环境光
 
     vec3 finalColor = diffuseColor + specularColor + objectColor * ambientColor;
