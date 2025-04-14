@@ -36,6 +36,8 @@ public:
 
     [[nodiscard]] float getShiness() const { return this->mShiness; }
 
+    void bind() const override;
+
     void addUniformToShader(Shader &shader) const override;
 
 private:

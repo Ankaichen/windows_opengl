@@ -26,7 +26,6 @@ Mesh::~Mesh() noexcept {
 }
 
 void Mesh::addUniformToShader(Shader &shader) const {
-    shader.setMatrix4x4("modelMatrix", this->getModelMatrix());
-    shader.setMatrix3x3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(this->getModelMatrix()))));
+    Object::addUniformToShader(shader);
     shader << (*this->mMaterial);
 }

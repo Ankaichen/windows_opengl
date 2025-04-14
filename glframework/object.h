@@ -12,8 +12,9 @@
 #define OPENGL_OBJECT_H
 
 #include "core.h"
+#include "shader_uniformer.h"
 
-class Object {
+class Object : virtual public ShaderUniformer {
 public:
     Object() = default;
 
@@ -34,6 +35,8 @@ public:
     [[nodiscard]] inline glm::vec3 getPosition() const { return this->mPosition; }
 
     [[nodiscard]] glm::mat4 getModelMatrix() const;
+
+    void addUniformToShader(Shader &shader) const override;
 
 protected:
     glm::vec3 mPosition{0.f};

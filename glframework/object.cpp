@@ -9,6 +9,7 @@
   */
 
 #include "object.h"
+#include "shader.h"
 
 Object::Object(const glm::vec3 &position, float angleX, float angleY, float angleZ, const glm::vec3 &scale)
         : mPosition{position}, mAngleX{angleX}, mAngleY{angleY}, mAngleZ{angleZ}, mScale{scale} {
@@ -24,4 +25,9 @@ glm::mat4 Object::getModelMatrix() const {
     modelMatrix = glm::rotate(modelMatrix, glm::radians(this->mAngleZ), glm::vec3{0.f, 0.f, 1.f});
     modelMatrix = glm::translate(glm::identity<glm::mat4>(), this->mPosition) * modelMatrix;
     return modelMatrix;
+}
+
+void Object::addUniformToShader(Shader &shader) const {
+    shader.setMatrix4x4("modelMatrix", this->getModelMatrix());
+    shader.setMatrix3x3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(this->getModelMatrix()))));
 }

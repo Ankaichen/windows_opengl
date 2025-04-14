@@ -18,7 +18,7 @@
 #include "geometry.h"
 #include "shader_uniformer.h"
 
-class Mesh : public Object, public ShaderUniformer {
+class Mesh : public Object {
 public:
     Mesh() = default;
 

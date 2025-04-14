@@ -27,7 +27,7 @@ void Renderer::addShader(MaterialType materialType,
 }
 
 void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const std::shared_ptr<Camera> &camera,
-                      const std::shared_ptr<DirectionalLight> &directionalLight,
+                      const std::shared_ptr<Light> &light,
                       const std::shared_ptr<AmbientLight> &ambientLight) {
     // 设置当前帧的OpenGL状态机参数
     glEnable(GL_DEPTH_TEST);
@@ -45,8 +45,9 @@ void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const st
         // 根据material获取shader
         const auto &shader = this->mShaders[material->getMaterialType()];
         shader->begin();
+        material->bind();
         // 设置shader的uniform
-        (*shader) << (*mesh) << (*camera) << (*directionalLight) << (*ambientLight);
+        (*shader) << (*mesh) << (*camera) << (*light) << (*ambientLight);
         // 绑定VAO
         glBindVertexArray(geometry->getVao());
         // 绘制

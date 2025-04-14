@@ -14,7 +14,7 @@
 #include "../shader_uniformer.h"
 
 enum class MaterialType {
-    PHONG_MATERIAL
+    PHONG_MATERIAL, WHITE_MATERIAL
 };
 
 class Material : public ShaderUniformer {
@@ -23,6 +23,8 @@ public:
     explicit Material(MaterialType materialType);
 
     ~Material() noexcept override = 0;
+
+    virtual void bind() const = 0;
 
     [[nodiscard]] inline MaterialType getMaterialType() const { return this->mMaterialType; }
 

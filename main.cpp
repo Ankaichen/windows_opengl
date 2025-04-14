@@ -16,13 +16,16 @@
 #include "glframework/mesh.h"
 #include "glframework/renderer/renderer.h"
 #include "glframework/material/phong_material.h"
+#include "glframework/material/white_material.h"
 #include "glframework/light/directional_light.h"
 #include "glframework/light/ambient_light.h"
+#include "glframework/light/point_light.h"
 
 std::vector<std::shared_ptr<Mesh>> meshes{};
 std::shared_ptr<Camera> camera{nullptr};
 std::unique_ptr<CameraController> cameraController{nullptr};
-std::shared_ptr<DirectionalLight> directionalLight{nullptr};
+//std::shared_ptr<DirectionalLight> directionalLight{nullptr};
+std::shared_ptr<PointLight> pointLight{nullptr};
 std::shared_ptr<AmbientLight> ambientLight{nullptr};
 std::unique_ptr<Renderer> renderer{};
 
@@ -92,17 +95,27 @@ void prepareMeshes() {
                     std::make_shared<Texture>("assets/textures/box.png", 0),
                     std::make_shared<Texture>("assets/textures/sp_mask.png", 1), 32.f)
     ));
-//    meshes.emplace_back(std::make_shared<Mesh>(
-//            glm::vec3{5.f, 2.f, 3.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
-//            Geometry::createSphere(2.f),
-//            std::make_shared<PhongMaterial>(std::make_shared<Texture>("assets/textures/earth.jpg", 0), nullptr, 32.f)
-//    ));
+    meshes.emplace_back(std::make_shared<Mesh>(
+            glm::vec3{3.f, 3.f, 3.f}, 0.f, 0.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
+            Geometry::createSphere(0.2f),
+            std::make_shared<WhiteMaterial>()
+    ));
+    meshes.emplace_back(std::make_shared<Mesh>(
+            glm::vec3{6.f, 2.f, 4.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
+            Geometry::createSphere(2.f),
+            std::make_shared<PhongMaterial>(
+                    std::make_shared<Texture>("assets/textures/earth.jpg", 0),
+                    std::make_shared<Texture>("assets/textures/white.jpg", 1), 32.f)
+    ));
 }
 
 void prepareLight() {
-    directionalLight = std::make_shared<DirectionalLight>(
-            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
-    );
+//    directionalLight = std::make_shared<DirectionalLight>(
+//            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
+//    );
+    pointLight = std::make_shared<PointLight>(
+            glm::vec3{1.f, 1.f, 1.f}, 1.f, glm::vec3{3.f, 3.f, 3.f}, 0.017f, 0.07f, 1.f
+            );
     ambientLight = std::make_shared<AmbientLight>(
             glm::vec3{0.1f, 0.1f, 0.1f}
     );
@@ -110,7 +123,9 @@ void prepareLight() {
 
 void prepareShader() {
     renderer->addShader(MaterialType::PHONG_MATERIAL,
-                        "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
+                        "./assets/shaders/phong_point_light.vert", "./assets/shaders/phong_point_light.frag");
+    renderer->addShader(MaterialType::WHITE_MATERIAL,
+                        "./assets/shaders/white.vert", "./assets/shaders/white.frag");
 }
 
 void prepare() {
@@ -138,7 +153,7 @@ int main() {
         doTransform();
         cameraController->update();
         // 渲染操作
-        renderer->render(meshes, camera, directionalLight, ambientLight);
+        renderer->render(meshes, camera, pointLight, ambientLight);
     }
     { decltype(meshes) temp(std::move(meshes)); }
     app.destroy();
