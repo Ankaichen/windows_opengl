@@ -29,11 +29,11 @@ void Renderer::addShader(MaterialType materialType,
 void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const std::shared_ptr<Camera> &camera,
                       const std::vector<std::shared_ptr<Light>> &lights) {
     // 设置当前帧的OpenGL状态机参数
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glClearDepth(1.f);
+    GL_CALL(glEnable(GL_DEPTH_TEST));
+    GL_CALL(glDepthFunc(GL_LESS));
+    GL_CALL(glClearDepth(1.f));
     // 清理画布
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     // 绘制mesh
     for (const auto &mesh: meshes) {
         if (mesh == nullptr) {

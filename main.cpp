@@ -22,12 +22,17 @@
 #include "glframework/light/point_light.h"
 #include "glframework/light/spot_light.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 std::vector<std::shared_ptr<Mesh>> meshes{};
 std::shared_ptr<Camera> camera{nullptr};
 std::unique_ptr<CameraController> cameraController{nullptr};
 std::vector<std::shared_ptr<Light>> lights;
 std::unique_ptr<Renderer> renderer{};
 
+glm::vec3 clearColor{};
 
 void setCallback() {
     // 窗口大小调整的回调函数
@@ -63,10 +68,11 @@ void setCallback() {
 }
 
 void doTransform() {
-//    meshes[1]->rotateY(1.f);
-//    meshes[1]->setPosition(
-//            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) * glm::vec4(meshes[1]->getPosition(), 1.f)
-//            );
+    meshes[2]->rotateY(1.f);
+    meshes[2]->setPosition(
+            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) *
+            glm::vec4(meshes[2]->getPosition(), 1.f)
+    );
 //    spotLight->rotateX(1.f);
 }
 
@@ -113,11 +119,14 @@ void prepareLight() {
     lights.emplace_back(std::make_shared<DirectionalLight>(
             glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
     ));
-//    lights.emplace_back(std::make_shared<DirectionalLight>(
-//            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
-//    ));
     lights.emplace_back(std::make_shared<PointLight>(
-            glm::vec3{1.f, 1.f, 1.f}, 1.f, glm::vec3{3.f, 3.f, 3.f}, 0.017f, 0.07f, 1.f
+            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{3.f, 3.f, 3.f}, 0.017f, 0.07f, 1.f
+    ));
+    lights.emplace_back(std::make_shared<PointLight>(
+            glm::vec3{0.f, 0.8f, 0.8f}, 1.f, glm::vec3{-3.f, -3.f, -3.f}, 0.017f, 0.07f, 1.f
+    ));
+    lights.emplace_back(std::make_shared<PointLight>(
+            glm::vec3{1.f, 0.f, 0.f}, 1.f, glm::vec3{-3.f, 3.f, -3.f}, 0.017f, 0.07f, 1.f
     ));
     lights.emplace_back(std::make_shared<SpotLight>(
             glm::vec3{1.f, 1.f, 1.f}, 0.9f, glm::vec3{3.f, 3.f, 3.f},
@@ -143,6 +152,34 @@ void prepare() {
     prepareShader();
 }
 
+void initImGui() {
+    ImGui::CreateContext();// 创建ImGui上下文
+    ImGui::StyleColorsDark();// 设置主题
+    // 设置ImGui与GLFW和OpenGL的绑定
+    ImGui_ImplGlfw_InitForOpenGL(app.getWindow(), true);
+    ImGui_ImplOpenGL3_Init("#version 460");
+}
+
+void renderImGui() {
+    // 开启当前imgui渲染
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+    // 决定当前gui上面有那些控件 从上到下
+    ImGui::Begin("Hello World!");
+    ImGui::Text("ChangeColor Demo");
+    ImGui::Button("Test Button", ImVec2{40, 20});
+    ImGui::ColorEdit3("Clear Color", reinterpret_cast<float *>(&clearColor));
+    ImGui::End();
+    // 执行UI渲染
+    ImGui::Render();
+    int display_w, display_h;
+    GL_CALL(glfwGetFramebufferSize(app.getWindow(), &display_w, &display_h));
+    // 重置视口大小
+    GL_CALL(glViewport(0, 0, display_w, display_h));
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
 int main() {
 
     if (!app.init(800, 600, "glStudy")) {
@@ -153,14 +190,16 @@ int main() {
 
     // 设置视口大小 清理颜色
     GL_CALL(glViewport(0, 0, app.getWidth(), app.getHeight()));
-    GL_CALL(glClearColor(0.2f, 0.3f, 0.3f, 1.f));
 
     prepare();
+    initImGui();
     while (app.update()) {
         doTransform();
         cameraController->update();
         // 渲染操作
+        renderer->setClearColor(clearColor);
         renderer->render(meshes, camera, lights);
+        renderImGui();
     }
     { decltype(meshes) temp(std::move(meshes)); }
     app.destroy();

@@ -35,6 +35,8 @@ public:
 
     [[nodiscard]] uint32_t getHeight() const { return this->mHeight; }
 
+    [[nodiscard]] GLFWwindow *getWindow() const { return this->mWindow; }
+
     void getCursorPosition(double &xPos, double &yPos) const;
 
     bool init(const uint32_t &width, const uint32_t &xPos, std::string_view yPos);

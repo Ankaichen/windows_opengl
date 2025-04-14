@@ -16,6 +16,9 @@
 #include <map>
 #include <string_view>
 
+#include "../core.h"
+#include "../../wrapper/wrapper.h"
+
 class Mesh;
 
 class Camera;
@@ -46,6 +49,10 @@ public:
             const std::shared_ptr<Camera> &camera,
             const std::vector<std::shared_ptr<Light>> &lights
     );
+
+    inline void setClearColor(const glm::vec3 clearColor) {
+        GL_CALL(glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.f));
+    }
 
 private:
     std::map<MaterialType, std::shared_ptr<Shader>> mShaders{};

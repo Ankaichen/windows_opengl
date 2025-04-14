@@ -37,7 +37,7 @@ struct SpotLight {
 
 uniform SpotLight spotLights[1];
 uniform DirectionalLight directionalLights[1];
-uniform PointLight pointLights[1];
+uniform PointLight pointLights[3];
 
 // 计算漫反射Diffuse
 vec3 calculateDiffuse(vec3 lightColor, vec3 objectColor, vec3 lightDirection, vec3 objectNormal) {
@@ -100,6 +100,8 @@ void main() {
     result += calculateSpotLight(spotLights[0], normalN, viewDirectionN);
     result += calculateDirectionLight(directionalLights[0], normalN, viewDirectionN);
     result += calculatePointLight(pointLights[0], normalN, viewDirectionN);
+    result += calculatePointLight(pointLights[1], normalN, viewDirectionN);
+    result += calculatePointLight(pointLights[2], normalN, viewDirectionN);
     vec3 finalColor = result + objectColor * ambientColor;
     FragColor = vec4(finalColor, 1.f);
 }
