@@ -13,8 +13,9 @@
 
 #include "../core.h"
 #include "light.h"
+#include "../../utils/auto_id.h"
 
-class DirectionalLight : public Light {
+class DirectionalLight : public Light, public AutoId<DirectionalLight> {
 public:
     DirectionalLight() = default;
 

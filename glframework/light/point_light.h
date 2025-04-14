@@ -8,13 +8,14 @@
   ******************************************************************************
   */
 
-#ifndef OPENGL_POINT_LISGT_H
-#define OPENGL_POINT_LISGT_H
+#ifndef OPENGL_POINT_LIGHT_H
+#define OPENGL_POINT_LIGHT_H
 
 #include "light.h"
 #include "../object.h"
+#include "../../utils/auto_id.h"
 
-class PointLight : public Light, public Object {
+class PointLight : public Light, public Object, public AutoId<PointLight> {
 public:
     PointLight() = default;
 
@@ -30,4 +31,4 @@ private:
 };
 
 
-#endif //OPENGL_POINT_LISGT_H
+#endif //OPENGL_POINT_LIGHT_H

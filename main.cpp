@@ -20,13 +20,12 @@
 #include "glframework/light/directional_light.h"
 #include "glframework/light/ambient_light.h"
 #include "glframework/light/point_light.h"
+#include "glframework/light/spot_light.h"
 
 std::vector<std::shared_ptr<Mesh>> meshes{};
 std::shared_ptr<Camera> camera{nullptr};
 std::unique_ptr<CameraController> cameraController{nullptr};
-//std::shared_ptr<DirectionalLight> directionalLight{nullptr};
-std::shared_ptr<PointLight> pointLight{nullptr};
-std::shared_ptr<AmbientLight> ambientLight{nullptr};
+std::vector<std::shared_ptr<Light>> lights;
 std::unique_ptr<Renderer> renderer{};
 
 
@@ -68,6 +67,7 @@ void doTransform() {
 //    meshes[1]->setPosition(
 //            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) * glm::vec4(meshes[1]->getPosition(), 1.f)
 //            );
+//    spotLight->rotateX(1.f);
 }
 
 void prepareCamera() {
@@ -82,7 +82,7 @@ void prepareCamera() {
 //            glm::vec3{0.f, 0.f, 1.f},
 //            glm::vec3{0.f, 1.f, 0.f},
 //            glm::vec3{1.f, 0.f, 0.f},
-//            -10.f, 10.f, 10.f, -10.f, 10.f, -10.f);
+//            -20.f, 20.f, 20.f, -20.f, 20.f, -20.f);
     cameraController = std::make_unique<TrackBallController>(camera, 0.2f, 0.2f, 0.005f);
 //    cameraController = std::make_unique<GameCameraController>(camera, 0.2f, 0.2f, 0.1f);
 }
@@ -110,20 +110,27 @@ void prepareMeshes() {
 }
 
 void prepareLight() {
-//    directionalLight = std::make_shared<DirectionalLight>(
+    lights.emplace_back(std::make_shared<DirectionalLight>(
+            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
+    ));
+//    lights.emplace_back(std::make_shared<DirectionalLight>(
 //            glm::vec3{1.f, 1.f, 1.f}, 0.5f, glm::vec3{-1.0f, -0.3f, -0.7f}
-//    );
-    pointLight = std::make_shared<PointLight>(
+//    ));
+    lights.emplace_back(std::make_shared<PointLight>(
             glm::vec3{1.f, 1.f, 1.f}, 1.f, glm::vec3{3.f, 3.f, 3.f}, 0.017f, 0.07f, 1.f
-            );
-    ambientLight = std::make_shared<AmbientLight>(
+    ));
+    lights.emplace_back(std::make_shared<SpotLight>(
+            glm::vec3{1.f, 1.f, 1.f}, 0.9f, glm::vec3{3.f, 3.f, 3.f},
+            glm::vec3{-1.f, -1.f, -1.f}, 10.f, 20.f
+    ));
+    lights.emplace_back(std::make_shared<AmbientLight>(
             glm::vec3{0.1f, 0.1f, 0.1f}
-    );
+    ));
 }
 
 void prepareShader() {
     renderer->addShader(MaterialType::PHONG_MATERIAL,
-                        "./assets/shaders/phong_point_light.vert", "./assets/shaders/phong_point_light.frag");
+                        "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
     renderer->addShader(MaterialType::WHITE_MATERIAL,
                         "./assets/shaders/white.vert", "./assets/shaders/white.frag");
 }
@@ -153,7 +160,7 @@ int main() {
         doTransform();
         cameraController->update();
         // 渲染操作
-        renderer->render(meshes, camera, pointLight, ambientLight);
+        renderer->render(meshes, camera, lights);
     }
     { decltype(meshes) temp(std::move(meshes)); }
     app.destroy();

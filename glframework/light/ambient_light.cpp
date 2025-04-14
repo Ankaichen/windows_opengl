@@ -10,6 +10,9 @@
 
 #include "ambient_light.h"
 
+#include <string>
+#include <sstream>
+
 #include "../shader.h"
 
 AmbientLight::AmbientLight(const glm::vec3 &color)

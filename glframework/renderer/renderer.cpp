@@ -27,8 +27,7 @@ void Renderer::addShader(MaterialType materialType,
 }
 
 void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const std::shared_ptr<Camera> &camera,
-                      const std::shared_ptr<Light> &light,
-                      const std::shared_ptr<AmbientLight> &ambientLight) {
+                      const std::vector<std::shared_ptr<Light>> &lights) {
     // 设置当前帧的OpenGL状态机参数
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -43,16 +42,19 @@ void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const st
         const auto &geometry = mesh->getGeometry();
         const auto &material = mesh->getMaterial();
         // 根据material获取shader
-        const auto &shader = this->mShaders[material->getMaterialType()];
-        shader->begin();
+        auto &shader = *(this->mShaders[material->getMaterialType()]);
+        shader.begin();
         material->bind();
         // 设置shader的uniform
-        (*shader) << (*mesh) << (*camera) << (*light) << (*ambientLight);
+        shader << (*mesh) << (*camera);
+        for (const auto &light : lights) {
+            shader << (*light);
+        }
         // 绑定VAO
         glBindVertexArray(geometry->getVao());
         // 绘制
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geometry->getIndicesCount()), GL_UNSIGNED_INT, reinterpret_cast<void*>(0));
-        shader->end();
+        shader.end();
         glBindVertexArray(0);
     }
 }

@@ -10,6 +10,9 @@
 
 #include "directional_light.h"
 
+#include <string>
+#include <sstream>
+
 #include "../shader.h"
 
 DirectionalLight::DirectionalLight(const glm::vec3 &color, float specularIntensity, const glm::vec3 &direction)
@@ -20,7 +23,10 @@ DirectionalLight::~DirectionalLight() noexcept {
 }
 
 void DirectionalLight::addUniformToShader(Shader &shader) const {
-    shader.setVector3f("lightDirection", this->getDirection());
-    shader.setVector3f("lightColor", this->getColor());
-    shader.setFloat("specularIntensity", this->getSpecularIntensity());
+    std::stringstream ss;
+    ss << "directionalLights[" << this->getId() << "]";
+    std::string uniformName{ss.str()};
+    shader.setVector3f(uniformName + ".direction", this->getDirection());
+    shader.setVector3f(uniformName + ".color", this->getColor());
+    shader.setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
 }

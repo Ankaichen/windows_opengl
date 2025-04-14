@@ -9,6 +9,10 @@
   */
 
 #include "point_light.h"
+
+#include <string>
+#include <sstream>
+
 #include "../shader.h"
 
 PointLight::PointLight(const glm::vec3 &color, float specularIntensity, const glm::vec3 &position,
@@ -17,15 +21,17 @@ PointLight::PointLight(const glm::vec3 &color, float specularIntensity, const gl
           mKc{kc} {
 }
 
-
 PointLight::~PointLight() noexcept {
 }
 
 void PointLight::addUniformToShader(Shader &shader) const {
-    shader.setVector3f("lightPosition", this->getPosition());
-    shader.setVector3f("lightColor", this->getColor());
-    shader.setFloat("specularIntensity", this->getSpecularIntensity());
-    shader.setFloat("k2", this->mK2);
-    shader.setFloat("k1", this->mK1);
-    shader.setFloat("kc", this->mKc);
+    std::stringstream ss;
+    ss << "pointLights[" << this->getId() << "]";
+    std::string uniformName{ss.str()};
+    shader.setVector3f(uniformName + ".position", this->getPosition());
+    shader.setVector3f(uniformName + ".color", this->getColor());
+    shader.setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
+    shader.setFloat(uniformName + ".k2", this->mK2);
+    shader.setFloat(uniformName + ".k1", this->mK1);
+    shader.setFloat(uniformName + ".kc", this->mKc);
 }

@@ -44,8 +44,7 @@ public:
     void render(
             const std::vector<std::shared_ptr<Mesh>> &meshes,
             const std::shared_ptr<Camera> &camera,
-            const std::shared_ptr<Light> &light,
-            const std::shared_ptr<AmbientLight> &ambientLight
+            const std::vector<std::shared_ptr<Light>> &lights
     );
 
 private:

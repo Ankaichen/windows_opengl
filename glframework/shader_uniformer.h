@@ -11,11 +11,15 @@
 #ifndef OPENGL_SHADER_UNIFORMER_H
 #define OPENGL_SHADER_UNIFORMER_H
 
+#include <map>
+#include <string>
+
 class Shader;
 
 class ShaderUniformer {
 public:
-    friend Shader& operator<<(Shader &shader, const ShaderUniformer &shaderUniformer);
+    friend Shader &operator<<(Shader &shader, const ShaderUniformer &shaderUniformer);
+
 public:
     ShaderUniformer() = default;
 
