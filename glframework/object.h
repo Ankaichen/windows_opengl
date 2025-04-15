@@ -11,10 +11,13 @@
 #ifndef OPENGL_OBJECT_H
 #define OPENGL_OBJECT_H
 
+#include <memory>
+#include <vector>
+
 #include "core.h"
 #include "shader_uniformer.h"
 
-class Object : virtual public ShaderUniformer {
+class Object : virtual public ShaderUniformer, public std::enable_shared_from_this<Object> {
 public:
     Object() = default;
 
@@ -38,12 +41,21 @@ public:
 
     void addUniformToShader(Shader &shader) const override;
 
+    void addChild(std::shared_ptr<Object> obj);
+
+    std::vector<std::shared_ptr<Object>> getChildren() const { return this->mChildren; };
+
+    std::shared_ptr<Object> getParent() const { return this->mParent.lock(); }
+
 protected:
     glm::vec3 mPosition{0.f};
     // 旋转顺序 pitch(x) -> yaw(y) -> roll(z)
     float mAngleX{0.f}, mAngleY{0.f}, mAngleZ{0.f};
 
     glm::vec3 mScale{1.f};
+
+    std::vector<std::shared_ptr<Object>> mChildren{};
+    std::weak_ptr<Object> mParent{};
 };
 
 

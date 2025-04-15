@@ -68,6 +68,7 @@ void setCallback() {
 }
 
 void doTransform() {
+    meshes[0]->rotateZ(0.5f);
     meshes[2]->rotateY(1.f);
     meshes[2]->setPosition(
             glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) *
@@ -94,25 +95,29 @@ void prepareCamera() {
 }
 
 void prepareMeshes() {
-    meshes.emplace_back(std::make_shared<Mesh>(
+    auto box = std::make_shared<Mesh>(
             glm::vec3{0.f, 0.f, 0.f}, 20.f, 30.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createBox(4.f),
             std::make_shared<PhongMaterial>(
                     std::make_shared<Texture>("assets/textures/box.png", 0),
                     std::make_shared<Texture>("assets/textures/sp_mask.png", 1), 32.f)
-    ));
-    meshes.emplace_back(std::make_shared<Mesh>(
+    );
+    auto sphere = std::make_shared<Mesh>(
             glm::vec3{3.f, 3.f, 3.f}, 0.f, 0.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createSphere(0.2f),
             std::make_shared<WhiteMaterial>()
-    ));
-    meshes.emplace_back(std::make_shared<Mesh>(
+    );
+    auto earth = std::make_shared<Mesh>(
             glm::vec3{6.f, 2.f, 4.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createSphere(2.f),
             std::make_shared<PhongMaterial>(
                     std::make_shared<Texture>("assets/textures/earth.jpg", 0),
                     std::make_shared<Texture>("assets/textures/white.jpg", 1), 32.f)
-    ));
+    );
+    box->addChild(earth);
+    meshes.emplace_back(std::move(box));
+    meshes.emplace_back(std::move(sphere));
+    meshes.emplace_back(std::move(earth));
 }
 
 void prepareLight() {
