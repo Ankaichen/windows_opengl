@@ -22,6 +22,6 @@ AmbientLight::AmbientLight(const glm::vec3 &color)
 AmbientLight::~AmbientLight() noexcept {
 }
 
-void AmbientLight::addUniformToShader(Shader &shader) const {
-    shader.setVector3f("ambientColor", this->getColor());
+void AmbientLight::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+    shader->setVector3f("ambientColor", this->getColor());
 }

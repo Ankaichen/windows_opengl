@@ -24,14 +24,14 @@ PointLight::PointLight(const glm::vec3 &color, float specularIntensity, const gl
 PointLight::~PointLight() noexcept {
 }
 
-void PointLight::addUniformToShader(Shader &shader) const {
+void PointLight::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     std::stringstream ss;
     ss << "pointLights[" << this->getId() << "]";
     std::string uniformName{ss.str()};
-    shader.setVector3f(uniformName + ".position", this->getPosition());
-    shader.setVector3f(uniformName + ".color", this->getColor());
-    shader.setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
-    shader.setFloat(uniformName + ".k2", this->mK2);
-    shader.setFloat(uniformName + ".k1", this->mK1);
-    shader.setFloat(uniformName + ".kc", this->mKc);
+    shader->setVector3f(uniformName + ".position", this->getPosition());
+    shader->setVector3f(uniformName + ".color", this->getColor());
+    shader->setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
+    shader->setFloat(uniformName + ".k2", this->mK2);
+    shader->setFloat(uniformName + ".k1", this->mK1);
+    shader->setFloat(uniformName + ".kc", this->mKc);
 }

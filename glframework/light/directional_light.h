@@ -27,7 +27,7 @@ public:
 
     [[nodiscard]] inline glm::vec3 getDirection() const { return this->mDirection; }
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
 private:
     glm::vec3 mDirection{-1.f};

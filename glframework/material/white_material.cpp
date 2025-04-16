@@ -17,5 +17,5 @@ WhiteMaterial::WhiteMaterial()
 WhiteMaterial::~WhiteMaterial() noexcept {
 }
 
-void WhiteMaterial::addUniformToShader(Shader &shader) const {
+void WhiteMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
 }

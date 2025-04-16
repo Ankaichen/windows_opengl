@@ -22,11 +22,11 @@ DirectionalLight::DirectionalLight(const glm::vec3 &color, float specularIntensi
 DirectionalLight::~DirectionalLight() noexcept {
 }
 
-void DirectionalLight::addUniformToShader(Shader &shader) const {
+void DirectionalLight::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     std::stringstream ss;
     ss << "directionalLights[" << this->getId() << "]";
     std::string uniformName{ss.str()};
-    shader.setVector3f(uniformName + ".direction", this->getDirection());
-    shader.setVector3f(uniformName + ".color", this->getColor());
-    shader.setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
+    shader->setVector3f(uniformName + ".direction", this->getDirection());
+    shader->setVector3f(uniformName + ".color", this->getColor());
+    shader->setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
 }

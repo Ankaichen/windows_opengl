@@ -13,12 +13,13 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 class Shader;
 
 class ShaderUniformer {
 public:
-    friend Shader &operator<<(Shader &shader, const ShaderUniformer &shaderUniformer);
+    friend std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<ShaderUniformer> &shaderUniformer);
 
 public:
     ShaderUniformer() = default;
@@ -26,7 +27,7 @@ public:
     virtual ~ShaderUniformer() = 0;
 
 protected:
-    virtual void addUniformToShader(Shader &shader) const = 0;
+    virtual void addUniformToShader(const std::shared_ptr<Shader> &shader) const = 0;
 };
 
 

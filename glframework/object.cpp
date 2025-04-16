@@ -31,9 +31,9 @@ glm::mat4 Object::getModelMatrix() const {
     return ((parent == nullptr) ? glm::identity<glm::mat4>() : parent->getModelMatrix()) * modelMatrix;
 }
 
-void Object::addUniformToShader(Shader &shader) const {
-    shader.setMatrix4x4("modelMatrix", this->getModelMatrix());
-    shader.setMatrix3x3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(this->getModelMatrix()))));
+void Object::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+    shader->setMatrix4x4("modelMatrix", this->getModelMatrix());
+    shader->setMatrix3x3("normalMatrix", glm::transpose(glm::inverse(glm::mat3(this->getModelMatrix()))));
 }
 
 void Object::addChild(std::shared_ptr<Object> obj) {

@@ -27,8 +27,8 @@ void PhongMaterial::bind() const {
     this->mSpecularMask->bind();
 }
 
-void PhongMaterial::addUniformToShader(Shader &shader) const {
-    shader.setInt("samplerDiffuse", this->mDiffuse->getUnit());
-    shader.setInt("samplerSpecularMask", this->mSpecularMask->getUnit());
-    shader.setFloat("shiness", this->mShiness);
+void PhongMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+    shader->setInt("samplerDiffuse", this->mDiffuse->getUnit());
+    shader->setInt("samplerSpecularMask", this->mSpecularMask->getUnit());
+    shader->setFloat("shiness", this->mShiness);
 }

@@ -24,7 +24,7 @@ public:
 
     ~PointLight() noexcept;
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
 private:
     float mK2{1.f}, mK1{1.f}, mKc{1.f};

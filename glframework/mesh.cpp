@@ -25,7 +25,7 @@ Mesh::~Mesh() noexcept {
 
 }
 
-void Mesh::addUniformToShader(Shader &shader) const {
+void Mesh::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     Object::addUniformToShader(shader);
-    shader << (*this->mMaterial);
+    shader << this->mMaterial;
 }

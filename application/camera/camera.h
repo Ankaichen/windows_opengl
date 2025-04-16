@@ -46,7 +46,7 @@ public:
 
     virtual inline void scale(float deltaScale) = 0;
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
 protected:
     glm::vec3 mPosition{0.f, 0.f, 1.f};

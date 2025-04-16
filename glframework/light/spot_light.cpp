@@ -24,14 +24,14 @@ SpotLight::SpotLight(const glm::vec3 &color, float specularIntensity, const glm:
 SpotLight::~SpotLight() noexcept {
 }
 
-void SpotLight::addUniformToShader(Shader &shader) const {
+void SpotLight::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     std::stringstream ss;
     ss << "spotLights[" << this->getId() << "]";
     std::string uniformName{ss.str()};
-    shader.setVector3f(uniformName + ".position", this->getPosition());
-    shader.setVector3f(uniformName + ".targetDirection", this->mTargetDirection);
-    shader.setVector3f(uniformName + ".color", this->getColor());
-    shader.setFloat(uniformName + ".innerLine", glm::cos(glm::radians(this->mInnerAngle)));
-    shader.setFloat(uniformName + ".outerLine", glm::cos(glm::radians(this->mOuterAngle)));
-    shader.setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
+    shader->setVector3f(uniformName + ".position", this->getPosition());
+    shader->setVector3f(uniformName + ".targetDirection", this->mTargetDirection);
+    shader->setVector3f(uniformName + ".color", this->getColor());
+    shader->setFloat(uniformName + ".innerLine", glm::cos(glm::radians(this->mInnerAngle)));
+    shader->setFloat(uniformName + ".outerLine", glm::cos(glm::radians(this->mOuterAngle)));
+    shader->setFloat(uniformName + ".specularIntensity", this->getSpecularIntensity());
 }

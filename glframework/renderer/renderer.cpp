@@ -42,19 +42,19 @@ void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const st
         const auto &geometry = mesh->getGeometry();
         const auto &material = mesh->getMaterial();
         // 根据material获取shader
-        auto &shader = *(this->mShaders[material->getMaterialType()]);
-        shader.begin();
+        const auto &shader = this->mShaders[material->getMaterialType()];
+        shader->begin();
         material->bind();
         // 设置shader的uniform
-        shader << (*mesh) << (*camera);
+        shader << mesh << camera;
         for (const auto &light : lights) {
-            shader << (*light);
+            shader << light;
         }
         // 绑定VAO
         glBindVertexArray(geometry->getVao());
         // 绘制
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geometry->getIndicesCount()), GL_UNSIGNED_INT, reinterpret_cast<void*>(0));
-        shader.end();
+        shader->end();
         glBindVertexArray(0);
     }
 }

@@ -14,7 +14,7 @@
 
 ShaderUniformer::~ShaderUniformer() = default;
 
-Shader &operator<<(Shader &shader, const ShaderUniformer &shaderUniformer) {
-    shaderUniformer.addUniformToShader(shader);
-    return shader;
+std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<ShaderUniformer> &shaderUniformer) {
+    shaderUniformer->addUniformToShader(shader);
+    return std::move(shader);
 }

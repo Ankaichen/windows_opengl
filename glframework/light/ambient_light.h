@@ -21,7 +21,7 @@ public:
 
     ~AmbientLight() noexcept override;
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 };
 
 

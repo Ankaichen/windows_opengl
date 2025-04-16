@@ -39,7 +39,7 @@ public:
 
     [[nodiscard]] glm::mat4 getModelMatrix() const;
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
     void addChild(std::shared_ptr<Object> obj);
 

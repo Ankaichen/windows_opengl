@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] inline std::shared_ptr<Material> getMaterial() const { return this->mMaterial; }
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
 private:
     std::shared_ptr<Geometry> mGeometry{nullptr};

@@ -24,7 +24,7 @@ public:
 
     ~SpotLight() noexcept override;
 
-    void addUniformToShader(Shader &shader) const override;
+    void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
 
 private:
     glm::vec3 mTargetDirection{-1.f};

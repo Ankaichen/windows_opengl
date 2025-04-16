@@ -17,8 +17,8 @@ Camera::Camera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec
 
 Camera::~Camera() noexcept = default;
 
-void Camera::addUniformToShader(Shader &shader) const {
-    shader.setMatrix4x4("viewMatrix", this->getViewMatrix());
-    shader.setMatrix4x4("projectionMatrix", this->getProjectionMatrix());
-    shader.setVector3f("cameraPosition", this->getPosition());
+void Camera::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+    shader->setMatrix4x4("viewMatrix", this->getViewMatrix());
+    shader->setMatrix4x4("projectionMatrix", this->getProjectionMatrix());
+    shader->setVector3f("cameraPosition", this->getPosition());
 }
