@@ -12,6 +12,7 @@
 #define OPENGL_GEOMETRY_H
 
 #include <memory>
+#include <vector>
 
 #include "core.h"
 
@@ -19,6 +20,13 @@ class Geometry {
 
 public:
     Geometry() = default;
+
+    Geometry(
+            const std::vector<GLfloat> &positions,
+            const std::vector<GLfloat> &normals,
+            const std::vector<GLfloat> &uvs,
+            const std::vector<GLuint> &indices
+    );
 
     ~Geometry() noexcept;
 

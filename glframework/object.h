@@ -33,6 +33,12 @@ public:
 
     inline void rotateZ(float angle) { this->mAngleZ += angle; }
 
+    inline void setAngleX(float angle) { this->mAngleX = angle; }
+
+    inline void setAngleY(float angle) { this->mAngleY = angle; }
+
+    inline void setAngleZ(float angle) { this->mAngleZ = angle; }
+
     inline void setScale(const glm::vec3 &scale) { this->mScale = scale; }
 
     [[nodiscard]] inline glm::vec3 getPosition() const { return this->mPosition; }

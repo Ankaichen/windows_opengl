@@ -10,10 +10,41 @@
 
 #include "geometry.h"
 
-#include <vector>
-#include <memory>
-
 #include "../wrapper/wrapper.h"
+
+Geometry::Geometry(const std::vector<GLfloat> &positions, const std::vector<GLfloat> &normals,
+                   const std::vector<GLfloat> &uvs, const std::vector<GLuint> &indices) {
+    GL_CALL(glGenVertexArrays(1, &this->mVao));
+    GL_CALL(glGenBuffers(1, &this->mPosVbo));
+    GL_CALL(glGenBuffers(1, &this->mUvVbo));
+    GL_CALL(glGenBuffers(1, &this->mNormalVbo));
+    GL_CALL(glGenBuffers(1, &this->mEbo));
+
+    GL_CALL(glBindVertexArray(this->mVao));
+    GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, this->mPosVbo));
+    GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * positions.size(), positions.data(), GL_STATIC_DRAW));
+    GL_CALL(glEnableVertexAttribArray(0));
+    GL_CALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<void *>(0)));
+
+    GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, this->mUvVbo));
+    GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * uvs.size(), uvs.data(), GL_STATIC_DRAW));
+    GL_CALL(glEnableVertexAttribArray(1));
+    GL_CALL(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), reinterpret_cast<void *>(0)));
+
+    GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, this->mNormalVbo));
+    GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * normals.size(), normals.data(), GL_STATIC_DRAW));
+    GL_CALL(glEnableVertexAttribArray(2));
+    GL_CALL(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<void *>(0)));
+
+    GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mEbo));
+    GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), indices.data(), GL_STATIC_DRAW));
+
+    GL_CALL(glBindVertexArray(0));
+    GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
+    this->mIndicesCount = indices.size();
+}
 
 Geometry::~Geometry() noexcept {
     if (this->mVao != 0) { GL_CALL(glDeleteVertexArrays(1, &this->mVao)); }
