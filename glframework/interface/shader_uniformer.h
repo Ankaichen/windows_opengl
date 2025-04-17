@@ -19,7 +19,7 @@ class Shader;
 
 class ShaderUniformer {
 public:
-    friend std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<ShaderUniformer> &shaderUniformer);
+    friend std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<const ShaderUniformer> &shaderUniformer);
 
 public:
     ShaderUniformer() = default;

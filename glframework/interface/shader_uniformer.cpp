@@ -10,11 +10,11 @@
 
 #include "shader_uniformer.h"
 
-#include "shader.h"
+#include "../shader.h"
 
 ShaderUniformer::~ShaderUniformer() = default;
 
-std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<ShaderUniformer> &shaderUniformer) {
+std::shared_ptr<Shader> operator<<(const std::shared_ptr<Shader> &shader, const std::shared_ptr<const ShaderUniformer> &shaderUniformer) {
     shaderUniformer->addUniformToShader(shader);
     return std::move(shader);
 }
