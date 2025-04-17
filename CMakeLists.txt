@@ -52,8 +52,9 @@ add_subdirectory(glframework)
 add_subdirectory(imgui)
 
 aux_source_directory(./ MAIN_SRCS) # 找到所有的源文件 不递归
+file(GLOB_RECURSE UTILS_SRCS ./utils/ *.cpp)
 
-add_executable(glStudy ${MAIN_SRCS})
+add_executable(glStudy ${MAIN_SRCS} ${UTILS_SRCS})
 
 target_link_libraries(glStudy glfw3dll glad wrapper application gl_framework imguiLib)
 
