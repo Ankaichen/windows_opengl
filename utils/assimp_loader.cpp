@@ -27,11 +27,13 @@ std::shared_ptr<Scene> AssimpLoader::load(std::string_view path) {
         return nullptr;
     }
     std::string rootPath{path};
+    rootPath = rootPath.substr(0, rootPath.find_last_of("//") + 1);
     std::shared_ptr<Group> group = AssimpLoader::processNode(
-            aiscene->mRootNode, aiscene,
-            rootPath.substr(0, rootPath.find_last_of("//") + 1));
-    auto scene = std::make_shared<Scene>();
+            aiscene->mRootNode, aiscene, rootPath);
+    auto scene= std::make_shared<Scene>();
     scene->addChild(group);
+    scene->setScale(glm::vec3{0.1f, 0.1f, 0.1f});
+//    delete aiscene;
     return scene;
 }
 
@@ -93,7 +95,7 @@ std::shared_ptr<Mesh> AssimpLoader::processMesh(aiMesh *aimesh, const aiScene *a
                 aiscene->mMaterials[aimesh->mMaterialIndex],
                 aiTextureType_DIFFUSE, aiscene, rootPath);
     } else { // 没有material 默认texture
-        texture = Texture::createTexture("./asserts/texture/default.jpg", 0);
+        texture = Texture::createTexture("./asserts/textures/default.jpg", 0);
     }
     return std::make_shared<Mesh>(
             std::make_shared<Geometry>(positions, normals, uvs, indices),

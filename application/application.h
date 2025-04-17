@@ -15,7 +15,7 @@
 #include <functional>
 #include <string_view>
 
-#define app (Application::getInstance())
+#define glApp (Application::getInstance())
 
 class GLFWwindow;
 

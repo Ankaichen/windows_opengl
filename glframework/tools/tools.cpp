@@ -10,7 +10,7 @@
 
 #include "tools.h"
 
-void Tools::decompose(const glm::mat4 &matrix, glm::vec3 &position, glm::vec3 &angles, glm::vec3 scale) {
+void Tools::decompose(const glm::mat4 &matrix, glm::vec3 &position, glm::vec3 &angles, glm::vec3 &scale) {
     // 四元数
     glm::quat quaternion;
     glm::vec3 skew;

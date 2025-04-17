@@ -22,7 +22,7 @@ public:
      * @param angles 欧拉角
      * @param scale
      */
-    static void decompose(const glm::mat4 &matrix, glm::vec3 &position, glm::vec3 &angles, glm::vec3 scale);
+    static void decompose(const glm::mat4 &matrix, glm::vec3 &position, glm::vec3 &angles, glm::vec3 &scale);
 };
 
 
