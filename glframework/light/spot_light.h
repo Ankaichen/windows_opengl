@@ -12,7 +12,7 @@
 #define OPENGL_SPOT_LIGHT_H
 
 #include "light.h"
-#include "../object.h"
+#include "../object/object.h"
 #include "../../utils/auto_id.h"
 
 class SpotLight : public Light, public Object, public AutoId<SpotLight> {

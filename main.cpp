@@ -13,7 +13,7 @@
 #include "application/camera/track_ball_controller.h"
 #include "application/camera/game_camera_controller.h"
 #include "glframework/geometry.h"
-#include "glframework/mesh.h"
+#include "glframework/object/mesh.h"
 #include "glframework/renderer/renderer.h"
 #include "glframework/material/phong_material.h"
 #include "glframework/material/white_material.h"

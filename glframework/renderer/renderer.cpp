@@ -10,8 +10,8 @@
 
 #include "renderer.h"
 
-#include "../object.h"
-#include "../mesh.h"
+#include "../object/object.h"
+#include "../object/mesh.h"
 #include "../../application/camera/camera.h"
 #include "../light/directional_light.h"
 #include "../light/ambient_light.h"
