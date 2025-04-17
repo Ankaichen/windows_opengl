@@ -48,7 +48,7 @@ Texture::Texture(int width, int height, unsigned char *data, GLuint unit) {
     stbi_set_flip_vertically_on_load(true);
     // 如果内嵌纹理是png或者jpg压缩格式的话 height=0 width代表图片大小
     int dataSize = (height == 0) ? width : width * height;
-    stbi_load_from_memory(data, dataSize * 4, &(this->mWidth), &(this->mHeight), &channels, STBI_rgb_alpha);
+    unsigned char *loadData = stbi_load_from_memory(data, dataSize * 4, &(this->mWidth), &(this->mHeight), &channels, STBI_rgb_alpha);
     // 生成纹理并激活单元绑定
     GL_CALL(glGenTextures(1, &(this->mTexture)));
     // 激活纹理单元
@@ -56,8 +56,10 @@ Texture::Texture(int width, int height, unsigned char *data, GLuint unit) {
     // 绑定纹理对象
     GL_CALL(glBindTexture(GL_TEXTURE_2D, this->mTexture));
     // 自动生成mipmap
-    GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->mWidth, this->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data));
+    GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->mWidth, this->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, loadData));
     GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
+    // 释放数据
+    stbi_image_free(loadData);
     // 设置纹理的过滤方式
     GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
     GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
