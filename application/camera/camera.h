@@ -14,7 +14,7 @@
 #include <iostream>
 
 #include "../../glframework/core.h"
-#include "../../glframework/shader_uniformer.h"
+#include "../../glframework/interface/shader_uniformer.h"
 
 class Camera : public ShaderUniformer {
 
