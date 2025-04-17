@@ -11,12 +11,18 @@
 #ifndef OPENGL_TEXTURE_H
 #define OPENGL_TEXTURE_H
 
-#include "core.h"
 #include <string_view>
+#include <string>
+#include <memory>
+#include <map>
+
+#include "core.h"
 
 class Texture {
 public:
-    Texture(std::string_view filename, GLuint unit);
+    Texture(std::string_view filePath, GLuint unit);
+
+    Texture(int width, int height, unsigned char *data, GLuint unit);
 
     ~Texture() noexcept;
 
@@ -28,11 +34,18 @@ public:
 
     void bind() const;
 
+    static std::shared_ptr<Texture> createTexture(std::string_view filePath, GLuint unit);
+
+    static std::shared_ptr<Texture>
+    createTexture(std::string_view filePath, int width, int height, unsigned char *data, GLuint unit);
+
 private:
     int mWidth{0};
     int mHeight{0};
     GLuint mUnit{0};
     GLuint mTexture{0};
+
+    static std::map<std::string, std::weak_ptr<Texture>> textureCache;
 };
 
 
