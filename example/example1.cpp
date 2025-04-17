@@ -43,31 +43,31 @@ std::unique_ptr<Renderer> renderer{};
 
 void setCallback() {
     // 窗口大小调整的回调函数
-    app.setResizeCallback([](int width, int height) -> void {
+    glApp.setResizeCallback([](int width, int height) -> void {
         GL_CALL(glViewport(0, 0, width, height));
     });
 
-    app.setKeyCallback([](int key, int scancode, int action, int mods) -> void {
+    glApp.setKeyCallback([](int key, int scancode, int action, int mods) -> void {
         if (cameraController != nullptr) {
             cameraController->onKey(key, action, mods);
         }
     });
 
-    app.setMouseButtonCallback([](int button, int action, int mods) -> void {
+    glApp.setMouseButtonCallback([](int button, int action, int mods) -> void {
         if (cameraController != nullptr) {
             double xpos, ypos;
-            app.getCursorPosition(xpos, ypos);
+            glApp.getCursorPosition(xpos, ypos);
             cameraController->onMouse(button, action, xpos, ypos);
         }
     });
 
-    app.setCursorPosCallback([](double xpos, double ypos) -> void {
+    glApp.setCursorPosCallback([](double xpos, double ypos) -> void {
         if (cameraController != nullptr) {
             cameraController->onCurse(xpos, ypos);
         }
     });
 
-    app.setScrollCallback([](double xoffset, double yoffset) -> void {
+    glApp.setScrollCallback([](double xoffset, double yoffset) -> void {
         if (cameraController != nullptr) {
             cameraController->onScroll(static_cast<float>(yoffset));
         }
@@ -97,7 +97,7 @@ void prepareCamera() {
             glm::vec3{0.f, 1.f, 0.f},
             glm::vec3{1.f, 0.f, 0.f},
             60.f,
-            static_cast<float>(app.getWidth()) / static_cast<float>(app.getHeight()),
+            static_cast<float>(glApp.getWidth()) / static_cast<float>(glApp.getHeight()),
             0.1f, 1000.f);
     cameraController = std::make_unique<TrackBallController>(camera, 0.2f, 0.2f, 0.005f);
 }
@@ -204,7 +204,7 @@ void prepareLight() {
 
 void prepareShader() {
     renderer->addShader(MaterialType::PHONG_MATERIAL,
-                        "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
+                        "./assets/shaders/phong_example1.vert", "./assets/shaders/phong_example1.frag");
     renderer->addShader(MaterialType::LIGHT_MATERIAL,
                         "./assets/shaders/white.vert", "./assets/shaders/white.frag");
 }
@@ -219,18 +219,18 @@ void prepare() {
 
 int main() {
 
-    if (!app.init(800, 600, "glStudy")) {
+    if (!glApp.init(800, 600, "glStudy")) {
         return -1;
     }
 
     setCallback();
 
     // 设置视口大小 清理颜色
-    GL_CALL(glViewport(0, 0, app.getWidth(), app.getHeight()));
+    GL_CALL(glViewport(0, 0, glApp.getWidth(), glApp.getHeight()));
 
     prepare();
 //    initImGui();
-    while (app.update()) {
+    while (glApp.update()) {
         doTransform();
         cameraController->update();
         // 渲染操作
@@ -239,7 +239,7 @@ int main() {
 //        renderImGui();
     }
     { decltype(objects) temp(std::move(objects)); }
-    app.destroy();
+    glApp.destroy();
 
     return 0;
 }
