@@ -14,9 +14,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
 
-#include <iostream>
-
-std::map<std::string, Texture> Texture::textureCache{};
+std::map<std::string, std::weak_ptr<Texture>> Texture::textureCache{};
 
 Texture::Texture(std::string_view filePath, GLuint unit) : mUnit(unit) {
     // stb image 读取图片
