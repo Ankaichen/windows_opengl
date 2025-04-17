@@ -37,7 +37,7 @@ struct SpotLight {
 
 uniform SpotLight spotLights[1];
 uniform DirectionalLight directionalLights[1];
-uniform PointLight pointLights[3];
+uniform PointLight pointLights[6];
 
 // 计算漫反射Diffuse
 vec3 calculateDiffuse(vec3 lightColor, vec3 objectColor, vec3 lightDirection, vec3 objectNormal) {
@@ -54,8 +54,8 @@ vec3 calculateSpecular(vec3 lightColor, vec3 lightDirection, vec3 objectNormal, 
     vec3 lightRef = normalize(reflect(lightDirection, objectNormal));
     float specular = clamp(dot(lightRef, -viewDirection), 0.f, 1.f);
     specular = pow(specular, shiness);// 控制光斑大小
-    // float specularMask = texture(samplerSpecularMask, uv).r;
-    vec3 specularColor = flag * intensity * specular * lightColor;
+    float specularMask = texture(samplerSpecularMask, uv).r;
+    vec3 specularColor = flag * specularMask * intensity * specular * lightColor;
     return specularColor;
 }
 
@@ -102,6 +102,9 @@ void main() {
     result += calculatePointLight(pointLights[0], normalN, viewDirectionN);
     result += calculatePointLight(pointLights[1], normalN, viewDirectionN);
     result += calculatePointLight(pointLights[2], normalN, viewDirectionN);
+    result += calculatePointLight(pointLights[3], normalN, viewDirectionN);
+    result += calculatePointLight(pointLights[4], normalN, viewDirectionN);
+    result += calculatePointLight(pointLights[5], normalN, viewDirectionN);
     vec3 finalColor = result + objectColor * ambientColor;
     FragColor = vec4(finalColor, 1.f);
 }

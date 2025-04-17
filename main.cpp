@@ -13,10 +13,12 @@
 #include "application/camera/track_ball_controller.h"
 #include "application/camera/game_camera_controller.h"
 #include "glframework/geometry.h"
+#include "glframework/object/scene.h"
 #include "glframework/object/mesh.h"
+#include "glframework/object/group.h"
 #include "glframework/renderer/renderer.h"
 #include "glframework/material/phong_material.h"
-#include "glframework/material/white_material.h"
+#include "glframework/material/light_material.h"
 #include "glframework/light/directional_light.h"
 #include "glframework/light/ambient_light.h"
 #include "glframework/light/point_light.h"
@@ -26,7 +28,7 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-std::vector<std::shared_ptr<Mesh>> meshes{};
+std::vector<std::shared_ptr<Object>> objects{};
 std::shared_ptr<Camera> camera{nullptr};
 std::unique_ptr<CameraController> cameraController{nullptr};
 std::vector<std::shared_ptr<Light>> lights;
@@ -68,12 +70,12 @@ void setCallback() {
 }
 
 void doTransform() {
-    meshes[0]->rotateZ(0.5f);
-    meshes[2]->rotateY(1.f);
-    meshes[2]->setPosition(
-            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) *
-            glm::vec4(meshes[2]->getPosition(), 1.f)
-    );
+//    meshes[0]->rotateZ(0.5f);
+//    meshes[2]->rotateY(1.f);
+//    meshes[2]->setPosition(
+//            glm::rotate(glm::identity<glm::mat4>(), 0.01f, glm::vec3{-1.f, 1.f, 1.f}) *
+//            glm::vec4(meshes[2]->getPosition(), 1.f)
+//    );
 //    spotLight->rotateX(1.f);
 }
 
@@ -94,7 +96,7 @@ void prepareCamera() {
 //    cameraController = std::make_unique<GameCameraController>(camera, 0.2f, 0.2f, 0.1f);
 }
 
-void prepareMeshes() {
+void prepareScenes() {
     auto box = std::make_shared<Mesh>(
             glm::vec3{0.f, 0.f, 0.f}, 20.f, 30.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createBox(4.f),
@@ -105,7 +107,7 @@ void prepareMeshes() {
     auto sphere = std::make_shared<Mesh>(
             glm::vec3{3.f, 3.f, 3.f}, 0.f, 0.f, 0.f, glm::vec3{1.f, 1.f, 1.f},
             Geometry::createSphere(0.2f),
-            std::make_shared<WhiteMaterial>()
+            std::make_shared<LightMaterial>(glm::vec3{1.f, 1.f, 1.f})
     );
     auto earth = std::make_shared<Mesh>(
             glm::vec3{6.f, 2.f, 4.f}, 0.f, 0.f, 8.f, glm::vec3{1.f, 1.f, 1.f},
@@ -115,9 +117,10 @@ void prepareMeshes() {
                     std::make_shared<Texture>("assets/textures/white.jpg", 1), 32.f)
     );
     box->addChild(earth);
-    meshes.emplace_back(std::move(box));
-    meshes.emplace_back(std::move(sphere));
-    meshes.emplace_back(std::move(earth));
+    auto scene = std::make_shared<Scene>();
+    scene->addChild(box);
+    scene->addChild(sphere);
+    objects.emplace_back(std::move(scene));
 }
 
 void prepareLight() {
@@ -145,14 +148,14 @@ void prepareLight() {
 void prepareShader() {
     renderer->addShader(MaterialType::PHONG_MATERIAL,
                         "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
-    renderer->addShader(MaterialType::WHITE_MATERIAL,
+    renderer->addShader(MaterialType::LIGHT_MATERIAL,
                         "./assets/shaders/white.vert", "./assets/shaders/white.frag");
 }
 
 void prepare() {
     renderer = std::make_unique<Renderer>();
     prepareCamera();
-    prepareMeshes();
+    prepareScenes();
     prepareLight();
     prepareShader();
 }
@@ -197,16 +200,16 @@ int main() {
     GL_CALL(glViewport(0, 0, app.getWidth(), app.getHeight()));
 
     prepare();
-    initImGui();
+//    initImGui();
     while (app.update()) {
         doTransform();
         cameraController->update();
         // 渲染操作
         renderer->setClearColor(clearColor);
-        renderer->render(meshes, camera, lights);
-        renderImGui();
+        renderer->render(objects, camera, lights);
+//        renderImGui();
     }
-    { decltype(meshes) temp(std::move(meshes)); }
+    { decltype(objects) temp(std::move(objects)); }
     app.destroy();
 
     return 0;
