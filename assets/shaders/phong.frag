@@ -54,9 +54,9 @@ vec3 calculateSpecular(vec3 lightColor, vec3 lightDirection, vec3 objectNormal, 
     vec3 lightRef = normalize(reflect(lightDirection, objectNormal));
     float specular = clamp(dot(lightRef, -viewDirection), 0.f, 1.f);
     specular = pow(specular, shiness);// 控制光斑大小
-//    float specularMask = 1; // texture(samplerSpecularMask, uv).r;
-//    vec3 specularColor = flag * specularMask * intensity * specular * lightColor;
-    vec3 specularColor = flag * intensity * specular * lightColor;
+    float specularMask = texture(samplerSpecularMask, uv).r;
+    vec3 specularColor = flag * specularMask * intensity * specular * lightColor;
+//    vec3 specularColor = flag * intensity * specular * lightColor;
     return specularColor;
 }
 

@@ -91,8 +91,8 @@ void prepareCamera() {
 }
 
 void prepareScenes() {
-//    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Fist Fight B.fbx");
-    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
+//    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
+    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
     objects.push_back(obj);
 }
 

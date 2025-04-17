@@ -43,7 +43,8 @@ private:
             const aiMaterial *aimaterial,
             const aiTextureType &type,
             const aiScene *scene,
-            std::string_view rootPath);
+            std::string_view rootPath,
+            GLuint unit);
 
     static glm::mat4 convertToGLMMatrix(const aiMatrix4x4 &mat4);
 };

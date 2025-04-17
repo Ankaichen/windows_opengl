@@ -30,10 +30,9 @@ std::shared_ptr<Scene> AssimpLoader::load(std::string_view path) {
     rootPath = rootPath.substr(0, rootPath.find_last_of("//") + 1);
     std::shared_ptr<Group> group = AssimpLoader::processNode(
             aiscene->mRootNode, aiscene, rootPath);
-    auto scene= std::make_shared<Scene>();
+    auto scene = std::make_shared<Scene>();
     scene->addChild(group);
-    scene->setScale(glm::vec3{0.1f, 0.1f, 0.1f});
-//    delete aiscene;
+    scene->setScale(glm::vec3{1.f, 1.f, 1.f});
     return scene;
 }
 
@@ -89,17 +88,24 @@ std::shared_ptr<Mesh> AssimpLoader::processMesh(aiMesh *aimesh, const aiScene *a
         }
     }
     // 处理texture
-    std::shared_ptr<Texture> texture{};
+    std::shared_ptr<Texture> diffuseTexture{};
+    std::shared_ptr<Texture> specularTexture{};
     if (aimesh->mMaterialIndex >= 0) {
-        texture = AssimpLoader::processTexture(
+        diffuseTexture = AssimpLoader::processTexture(
                 aiscene->mMaterials[aimesh->mMaterialIndex],
-                aiTextureType_DIFFUSE, aiscene, rootPath);
+                aiTextureType_DIFFUSE, aiscene, rootPath, 0);
+        specularTexture = AssimpLoader::processTexture(
+                aiscene->mMaterials[aimesh->mMaterialIndex],
+                aiTextureType_SPECULAR, aiscene, rootPath, 1);
     } else { // 没有material 默认texture
-        texture = Texture::createTexture("./asserts/textures/default.jpg", 0);
+        diffuseTexture = Texture::createTexture("./asserts/textures/default.jpg", 0);
     }
     return std::make_shared<Mesh>(
             std::make_shared<Geometry>(positions, normals, uvs, indices),
-            std::make_shared<PhongMaterial>(texture, Texture::createTexture("./asserts/white.jpg", 1), 0.5)
+            std::make_shared<PhongMaterial>(
+                    diffuseTexture,
+                    (specularTexture == nullptr) ? Texture::createTexture("./asserts/white.jpg", 1) : specularTexture,
+                    0.5)
     );
 }
 
@@ -107,7 +113,8 @@ std::shared_ptr<Texture> AssimpLoader::processTexture(
         const aiMaterial *aimaterial,
         const aiTextureType &type,
         const aiScene *scene,
-        std::string_view rootPath) {
+        std::string_view rootPath,
+        GLuint unit) {
     aiString aipath{};
     aimaterial->Get(AI_MATKEY_TEXTURE(type, 0), aipath);
     if (aipath.length == 0) {
@@ -117,10 +124,10 @@ std::shared_ptr<Texture> AssimpLoader::processTexture(
     const aiTexture *aitexture = scene->GetEmbeddedTexture(aipath.C_Str());
     // 判断是否为内嵌图片
     if (aitexture == nullptr) { // 图片在硬盘上
-        result = Texture::createTexture(std::string{rootPath} + aipath.C_Str(), 0);
+        result = Texture::createTexture(std::string{rootPath} + aipath.C_Str(), unit);
     } else { // 内嵌图片
         unsigned char *data = reinterpret_cast<unsigned char *>(aitexture->pcData);
-        result = Texture::createTexture(aipath.C_Str(), aitexture->mWidth, aitexture->mHeight, data, 0);
+        result = Texture::createTexture(aipath.C_Str(), aitexture->mWidth, aitexture->mHeight, data, unit);
     }
     return result;
 }
