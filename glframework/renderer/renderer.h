@@ -47,7 +47,7 @@ public:
      * 渲染一帧
      */
     void render(
-            const std::vector<std::shared_ptr<Mesh>> &meshes,
+            const std::vector<std::shared_ptr<Object>> &objects,
             const std::shared_ptr<Camera> &camera,
             const std::vector<std::shared_ptr<Light>> &lights
     ) const;
@@ -55,14 +55,6 @@ public:
     inline void setClearColor(const glm::vec3 clearColor) {
         GL_CALL(glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.f));
     }
-
-private:
-
-    void renderObject(
-            std::shared_ptr<Object> object,
-            const std::shared_ptr<Camera> &camera,
-            const std::vector<std::shared_ptr<Light>> &lights
-    ) const;
 
 private:
     std::map<MaterialType, std::shared_ptr<Shader>> mShaders{};

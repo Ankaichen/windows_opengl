@@ -13,11 +13,13 @@
 
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include "../core.h"
-#include "../shader_uniformer.h"
+#include "../interface/shader_uniformer.h"
+#include "../interface/render_able.h"
 
-class Object : virtual public ShaderUniformer, public std::enable_shared_from_this<Object> {
+class Object : virtual public ShaderUniformer, public Renderable, public std::enable_shared_from_this<Object> {
 public:
     Object() = default;
 
@@ -52,6 +54,10 @@ public:
     std::vector<std::shared_ptr<Object>> getChildren() const { return this->mChildren; };
 
     std::shared_ptr<Object> getParent() const { return this->mParent.lock(); }
+
+    using VisitEvent = std::function<void(std::shared_ptr<const Object>)>;
+
+    void visitObjects(VisitEvent event) const;
 
 protected:
     glm::vec3 mPosition{0.f};

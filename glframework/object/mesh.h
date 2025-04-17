@@ -16,7 +16,7 @@
 #include "object.h"
 #include "../material/material.h"
 #include "../geometry.h"
-#include "../shader_uniformer.h"
+#include "../interface/shader_uniformer.h"
 
 class Mesh : public Object {
 public:
@@ -38,6 +38,8 @@ public:
     [[nodiscard]] inline std::shared_ptr<Material> getMaterial() const { return this->mMaterial; }
 
     void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
+
+    const RenderData getRenderData() const override;
 
 private:
     std::shared_ptr<Geometry> mGeometry{nullptr};

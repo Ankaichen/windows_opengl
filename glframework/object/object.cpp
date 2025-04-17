@@ -44,3 +44,10 @@ void Object::addChild(std::shared_ptr<Object> obj) {
     obj->mParent = this->shared_from_this();
     this->mChildren.emplace_back(std::move(obj));
 }
+
+void Object::visitObjects(Object::VisitEvent event) const {
+    event(this->shared_from_this());
+    for (auto child : this->mChildren) {
+        child->visitObjects(event);
+    }
+}

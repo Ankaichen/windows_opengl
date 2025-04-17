@@ -27,7 +27,7 @@ void Renderer::addShader(MaterialType materialType,
     );
 }
 
-void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const std::shared_ptr<Camera> &camera,
+void Renderer::render(const std::vector<std::shared_ptr<Object>> &objects, const std::shared_ptr<Camera> &camera,
                       const std::vector<std::shared_ptr<Light>> &lights) const {
     // 设置当前帧的OpenGL状态机参数
     GL_CALL(glEnable(GL_DEPTH_TEST));
@@ -36,60 +36,32 @@ void Renderer::render(const std::vector<std::shared_ptr<Mesh>> &meshes, const st
     // 清理画布
     GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     // 绘制mesh
-    for (const auto &mesh: meshes) {
-        if (mesh == nullptr) {
+    for (const std::shared_ptr<const Object> &object: objects) {
+        if (object == nullptr) {
             continue;
         }
-        const auto &geometry = mesh->getGeometry();
-        const auto &material = mesh->getMaterial();
-        // 根据material获取shader
-        auto iter = this->mShaders.find(material->getMaterialType());
-        if (iter == this->mShaders.cend()) {
-            continue;
-        }
-        auto &shader = iter->second;
-        shader->begin();
-        material->bind();
-        // 设置shader的uniform
-        shader << mesh << camera;
-        for (const auto &light: lights) {
-            shader << light;
-        }
-        // 绑定VAO
-        glBindVertexArray(geometry->getVao());
-        // 绘制
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geometry->getIndicesCount()), GL_UNSIGNED_INT,
-                       reinterpret_cast<void *>(0));
-        shader->end();
-        glBindVertexArray(0);
+        object->visitObjects([this, &camera, &lights](std::shared_ptr<const Object> child) -> void {
+            RenderData renderData = child->getRenderData();
+            if (!renderData.enable) {
+                return;
+            }
+            auto iter = this->mShaders.find(renderData.materialType);
+            if (iter == this->mShaders.end()) {
+                return;
+            }
+            auto &shader = iter->second;
+            shader->begin();
+            shader << child << camera;
+            for (const auto &light: lights) {
+                shader << light;
+            }
+            // 绑定VAO
+            glBindVertexArray(renderData.vao);
+            // 绘制
+            glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(renderData.indicesCount), GL_UNSIGNED_INT,
+                           reinterpret_cast<void *>(0));
+            shader->end();
+            glBindVertexArray(0);
+        });
     }
-}
-
-void Renderer::renderObject(std::shared_ptr<Object> object, const std::shared_ptr<Camera> &camera,
-                            const std::vector<std::shared_ptr<Light>> &lights) const {
-    if (object == nullptr) {
-        return;
-    }
-    const auto &geometry = mesh->getGeometry();
-    const auto &material = mesh->getMaterial();
-    // 根据material获取shader
-    auto iter = this->mShaders.find(material->getMaterialType());
-    if (iter == this->mShaders.cend()) {
-        return;
-    }
-    auto &shader = iter->second;
-    shader->begin();
-    material->bind();
-    // 设置shader的uniform
-    shader << mesh << camera;
-    for (const auto &light: lights) {
-        shader << light;
-    }
-    // 绑定VAO
-    glBindVertexArray(geometry->getVao());
-    // 绘制
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(geometry->getIndicesCount()), GL_UNSIGNED_INT,
-                   reinterpret_cast<void *>(0));
-    shader->end();
-    glBindVertexArray(0);
 }

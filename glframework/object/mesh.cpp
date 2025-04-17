@@ -28,4 +28,14 @@ Mesh::~Mesh() noexcept {
 void Mesh::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     Object::addUniformToShader(shader);
     shader << this->mMaterial;
+    this->mMaterial->bind();
+}
+
+const RenderData Mesh::getRenderData() const {
+    return {
+        .vao = this->mGeometry->getVao(),
+        .indicesCount = this->mGeometry->getIndicesCount(),
+        .enable = true,
+        .materialType = this->mMaterial->getMaterialType()
+    };
 }
