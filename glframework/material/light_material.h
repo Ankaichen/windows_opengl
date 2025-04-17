@@ -8,21 +8,25 @@
   ******************************************************************************
   */
 
-#ifndef OPENGL_WHITE_MATERIAL_H
-#define OPENGL_WHITE_MATERIAL_H
+#ifndef OPENGL_LIGHT_MATERIAL_H
+#define OPENGL_LIGHT_MATERIAL_H
 
+#include "../core.h"
 #include "material.h"
 
-class WhiteMaterial : public Material {
+class LightMaterial : public Material {
 public:
-    WhiteMaterial();
+    LightMaterial(const glm::vec3 &color);
 
-    ~WhiteMaterial() noexcept override;
+    ~LightMaterial() noexcept override;
 
     void bind() const override {}
 
     void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
+
+private:
+    glm::vec3 mColor{0.f};
 };
 
 
-#endif //OPENGL_WHITE_MATERIAL_H
+#endif //OPENGL_LIGHT_MATERIAL_H

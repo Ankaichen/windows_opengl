@@ -13,7 +13,7 @@
 
 
 #include "../core.h"
-#include "../shader_uniformer.h"
+#include "../interface/shader_uniformer.h"
 
 class Light : virtual public ShaderUniformer {
 public:

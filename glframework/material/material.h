@@ -11,10 +11,10 @@
 #ifndef OPENGL_MATERIAL_H
 #define OPENGL_MATERIAL_H
 
-#include "../shader_uniformer.h"
+#include "../interface/shader_uniformer.h"
 
 enum class MaterialType {
-    PHONG_MATERIAL, WHITE_MATERIAL
+    PHONG_MATERIAL, LIGHT_MATERIAL
 };
 
 class Material : public ShaderUniformer {

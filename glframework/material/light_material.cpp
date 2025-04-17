@@ -8,14 +8,17 @@
   ******************************************************************************
   */
 
-#include "white_material.h"
+#include "light_material.h"
 
-WhiteMaterial::WhiteMaterial()
-        : Material(MaterialType::WHITE_MATERIAL) {
+#include "../shader.h"
+
+LightMaterial::LightMaterial(const glm::vec3 &color)
+        : Material(MaterialType::LIGHT_MATERIAL), mColor(color) {
 }
 
-WhiteMaterial::~WhiteMaterial() noexcept {
+LightMaterial::~LightMaterial() noexcept {
 }
 
-void WhiteMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+void LightMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
+    shader->setVector3f("lightColor", this->mColor);
 }
