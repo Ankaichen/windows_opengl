@@ -9,7 +9,7 @@
   */
 
 #include "mesh.h"
-#include "shader.h"
+#include "../shader.h"
 
 Mesh::Mesh(std::shared_ptr<Geometry> geometry, std::shared_ptr<Material> material)
         : Object(), mGeometry(std::move(geometry)), mMaterial(std::move(material)) {

@@ -14,9 +14,9 @@
 #include <memory>
 
 #include "object.h"
-#include "material/material.h"
-#include "geometry.h"
-#include "shader_uniformer.h"
+#include "../material/material.h"
+#include "../geometry.h"
+#include "../shader_uniformer.h"
 
 class Mesh : public Object {
 public:

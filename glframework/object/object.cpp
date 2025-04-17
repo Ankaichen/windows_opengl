@@ -12,7 +12,7 @@
 
 #include <algorithm>
 
-#include "shader.h"
+#include "../shader.h"
 
 Object::Object(const glm::vec3 &position, float angleX, float angleY, float angleZ, const glm::vec3 &scale)
         : mPosition{position}, mAngleX{angleX}, mAngleY{angleY}, mAngleZ{angleZ}, mScale{scale} {

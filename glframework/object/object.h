@@ -14,8 +14,8 @@
 #include <memory>
 #include <vector>
 
-#include "core.h"
-#include "shader_uniformer.h"
+#include "../core.h"
+#include "../shader_uniformer.h"
 
 class Object : virtual public ShaderUniformer, public std::enable_shared_from_this<Object> {
 public:

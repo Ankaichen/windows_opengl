@@ -16,6 +16,9 @@
 class Scene : public Object {
 public:
     Scene() = default;
+
+    Scene(const glm::vec3 &position, float angleX, float angleY, float angleZ, const glm::vec3 &scale);
+
     ~Scene() = default;
 };
 
