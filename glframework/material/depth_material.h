@@ -1,30 +1,26 @@
 /**
   ******************************************************************************
-  * @file           : white_material.h
+  * @file           : depth_material.h
   * @author         : An Kaichen
   * @brief          : None
   * @attention      : None
-  * @date           : 2025-04-13
+  * @date           : 25-4-24
   ******************************************************************************
   */
 
-#ifndef OPENGL_LIGHT_MATERIAL_H
-#define OPENGL_LIGHT_MATERIAL_H
+#ifndef OPENGL_DEPTH_MATERIAL_H
+#define OPENGL_DEPTH_MATERIAL_H
 
-#include "../core.h"
 #include "material.h"
 
-class LightMaterial : public Material {
+class DepthMaterial : public Material {
 public:
-    LightMaterial(const glm::vec3 &color);
+    DepthMaterial();
 
-    ~LightMaterial() noexcept override;
+    ~DepthMaterial() noexcept override = default;
 
     void addUniformToShader(const std::shared_ptr<Shader> &shader) const override;
-
-private:
-    glm::vec3 mColor{0.f};
 };
 
 
-#endif //OPENGL_LIGHT_MATERIAL_H
+#endif //OPENGL_DEPTH_MATERIAL_H

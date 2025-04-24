@@ -11,10 +11,11 @@
 #ifndef OPENGL_MATERIAL_H
 #define OPENGL_MATERIAL_H
 
+#include "../core.h"
 #include "../interface/shader_uniformer.h"
 
 enum class MaterialType {
-    PHONG_MATERIAL, LIGHT_MATERIAL
+    PHONG_MATERIAL, LIGHT_MATERIAL, DEPTH_MATERIAL
 };
 
 class Material : public ShaderUniformer {
@@ -24,12 +25,36 @@ public:
 
     ~Material() noexcept override = 0;
 
-    virtual void bind() const = 0;
+    virtual void bind() const;
 
     [[nodiscard]] inline MaterialType getMaterialType() const { return this->mMaterialType; }
 
+    void setDepthTest(bool depthTest) { this->mDepthTest = depthTest; }
+
+    void setDepthFunc(GLenum depthFunc) { this->mDepthFunc = depthFunc; }
+
+    void setDepthWrite(bool depthWrite) { this->mDepthWrite = depthWrite; }
+
+    void setPolygonOffset(bool polygonOffset) { this->mPolygonOffset = polygonOffset; }
+
+    void setPolygonOffsetType(GLenum polygonOffsetType) { this->mPolygonOffsetType = polygonOffsetType; }
+
+    void setPolygonOffsetParameters(float factor, float unit) {
+        this->mFactor = factor;
+        this->mUnit = unit;
+    }
+
 protected:
     const MaterialType mMaterialType{};
+    // 深度检测
+    bool mDepthTest{true};
+    GLenum mDepthFunc{GL_LESS};
+    bool mDepthWrite{true};
+    // polygon offset
+    bool mPolygonOffset{false};
+    GLenum mPolygonOffsetType{GL_POLYGON_OFFSET_FILL};
+    float mFactor{0.f};
+    float mUnit{0.f};
 };
 
 

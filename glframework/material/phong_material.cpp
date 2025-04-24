@@ -23,6 +23,7 @@ PhongMaterial::PhongMaterial(std::shared_ptr<Texture> diffuse, std::shared_ptr<T
 PhongMaterial::~PhongMaterial() noexcept = default;
 
 void PhongMaterial::bind() const {
+    Material::bind();
     this->mDiffuse->bind();
     this->mSpecularMask->bind();
 }
@@ -31,4 +32,5 @@ void PhongMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) co
     shader->setInt("samplerDiffuse", this->mDiffuse->getUnit());
     shader->setInt("samplerSpecularMask", this->mSpecularMask->getUnit());
     shader->setFloat("shiness", this->mShiness);
+    this->bind();
 }

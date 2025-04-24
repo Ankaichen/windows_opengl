@@ -32,7 +32,10 @@ void Renderer::render(const std::vector<std::shared_ptr<Object>> &objects, const
     // 设置当前帧的OpenGL状态机参数
     GL_CALL(glEnable(GL_DEPTH_TEST));
     GL_CALL(glDepthFunc(GL_LESS));
+    GL_CALL(glDepthMask(GL_TRUE));
     GL_CALL(glClearDepth(1.f));
+    glDisable(GL_POLYGON_OFFSET_LINE);
+    glDisable(GL_POLYGON_OFFSET_FILL);
     // 清理画布
     GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     // 绘制mesh

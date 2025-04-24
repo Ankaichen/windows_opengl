@@ -36,8 +36,6 @@ private:
     float mRight{1.f};
     float mBottom{-1.f};
     float mTop{1.f};
-    float mNear{-1.f};
-    float mFar{1.f};
     float mScale{0.f};
 };
 

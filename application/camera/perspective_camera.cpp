@@ -9,14 +9,15 @@
   */
 
 #include "perspective_camera.h"
+#include "../../glframework/shader.h"
 
 PerspectiveCamera::PerspectiveCamera(float fovy, float aspect, float near, float far)
-        : Camera(), mFovy{fovy}, mAspect{aspect}, mNear{near}, mFar{far} {
+        : Camera(near, far), mFovy{fovy}, mAspect{aspect} {
 }
 
 PerspectiveCamera::PerspectiveCamera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec,
                                      float fovy, float aspect, float near, float far)
-        : Camera{position, upVec, rightVec}, mFovy{fovy}, mAspect{aspect}, mNear{near}, mFar{far} {
+        : Camera{position, upVec, rightVec, near, far}, mFovy{fovy}, mAspect{aspect} {
 }
 
 void PerspectiveCamera::scale(float deltaScale) {

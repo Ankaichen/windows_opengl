@@ -33,8 +33,6 @@ public:
 private:
     float mFovy{0.f};
     float mAspect{0.f};
-    float mNear{0.f};
-    float mFar{0.f};
 };
 
 

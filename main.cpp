@@ -19,6 +19,7 @@
 #include "glframework/renderer/renderer.h"
 #include "glframework/material/phong_material.h"
 #include "glframework/material/light_material.h"
+#include "glframework/material/depth_material.h"
 #include "glframework/light/directional_light.h"
 #include "glframework/light/ambient_light.h"
 #include "glframework/light/point_light.h"
@@ -80,7 +81,7 @@ void prepareCamera() {
             glm::vec3{1.f, 0.f, 0.f},
             60.f,
             static_cast<float>(glApp.getWidth()) / static_cast<float>(glApp.getHeight()),
-            0.1f, 1000.f);
+            0.1f, 2000.f);
 //    camera = std::make_shared<OrthographicCamera>(
 //            glm::vec3{0.f, 0.f, 1.f},
 //            glm::vec3{0.f, 1.f, 0.f},
@@ -92,9 +93,60 @@ void prepareCamera() {
 
 void prepareScenes() {
 //    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
-    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
-    objects.push_back(obj);
+//    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
+    objects.push_back(std::make_shared<Mesh>(
+            Geometry::createPlane(900.f, 600.f),
+            std::make_shared<PhongMaterial>(
+                    Texture::createTexture("assets/textures/box.png", 0),
+                    Texture::createTexture("assets/textures/sp_mask.png", 1),
+                    32.f)
+    ));
+    auto pnong = std::make_shared<PhongMaterial>(
+            Texture::createTexture("assets/textures/default.jpg", 0),
+            Texture::createTexture("assets/textures/white.jpg", 1),
+            32.f);
+    pnong->setDepthWrite(true);
+    pnong->setPolygonOffset(true);
+    pnong->setPolygonOffsetType(GL_POLYGON_OFFSET_FILL);
+    pnong->setPolygonOffsetParameters(1.f, 1.f);
+    objects.push_back(std::make_shared<Mesh>(
+            Geometry::createPlane(900.f, 600.f),
+            std::move(pnong)
+    ));
+//    objects.push_back(std::make_shared<Mesh>(
+//            Geometry::createPlane(5.f, 5.f),
+//            std::make_shared<PhongMaterial>(
+//                    Texture::createTexture("assets/textures/earth.jpg", 0),
+//                    Texture::createTexture("assets/textures/white.jpg", 1),
+//                    32.f)
+//    ));
+
+    objects[1]->setPosition(glm::vec3{2.f, 0.5f, -0.5f});
+//    objects[2]->setPosition(glm::vec3{4.f, 1.f, -2.f});
+
+objects[0]->rotateX(-88.f);
+objects[1]->rotateX(-88.f);
 }
+
+//void prepareScenes() {
+////    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
+////    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
+//    objects.push_back(std::make_shared<Mesh>(
+//            Geometry::createPlane(5.f, 5.f),
+//            std::make_shared<DepthMaterial>()
+//    ));
+//    objects.push_back(std::make_shared<Mesh>(
+//            Geometry::createPlane(5.f, 5.f),
+//            std::make_shared<DepthMaterial>()
+//    ));
+//    objects.push_back(std::make_shared<Mesh>(
+//            Geometry::createPlane(5.f, 5.f),
+//            std::make_shared<DepthMaterial>()
+//    ));
+//
+//    objects[1]->setPosition(glm::vec3{2.f, 0.5f, -1.f});
+//    objects[2]->setPosition(glm::vec3{4.f, 1.f, -2.f});
+//}
 
 void prepareLight() {
     lights.emplace_back(std::make_shared<DirectionalLight>(
@@ -110,6 +162,8 @@ void prepareShader() {
                         "./assets/shaders/phong.vert", "./assets/shaders/phong.frag");
     renderer->addShader(MaterialType::LIGHT_MATERIAL,
                         "./assets/shaders/white.vert", "./assets/shaders/white.frag");
+    renderer->addShader(MaterialType::DEPTH_MATERIAL,
+                        "./assets/shaders/depth.vert", "./assets/shaders/depth.frag");
 }
 
 void prepare() {
@@ -150,7 +204,7 @@ void renderImGui() {
 
 int main() {
 
-    if (!glApp.init(800, 600, "glStudy")) {
+    if (!glApp.init(1600, 1200, "glStudy")) {
         return -1;
     }
 

@@ -22,7 +22,10 @@ public:
 
     Camera() = default;
 
-    Camera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec);
+    Camera(float near, float far);
+
+    Camera(const glm::vec3 &position, const glm::vec3 &upVec, const glm::vec3 &rightVec,
+           float near, float far);
 
     virtual ~Camera() noexcept = 0;
 
@@ -53,6 +56,8 @@ protected:
     glm::vec3 mUpVec{0.f, 1.f, 0.f};
     glm::vec3 mRightVec{1.f, 0.f, 0.f};
 
+    float mNear{0.f};
+    float mFar{0.f};
 };
 
 

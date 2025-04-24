@@ -21,4 +21,5 @@ LightMaterial::~LightMaterial() noexcept {
 
 void LightMaterial::addUniformToShader(const std::shared_ptr<Shader> &shader) const {
     shader->setVector3f("lightColor", this->mColor);
+    this->bind();
 }

@@ -39,6 +39,9 @@ struct SpotLight {
 uniform DirectionalLight directionalLights[1];
 //uniform PointLight pointLights[2];
 
+uniform float near;
+uniform float far;
+
 // 计算漫反射Diffuse
 vec3 calculateDiffuse(vec3 lightColor, vec3 objectColor, vec3 lightDirection, vec3 objectNormal) {
     float diffuse = clamp(dot(-lightDirection, objectNormal), 0.f, 1.f);// 计算夹角作为光的吸收率
