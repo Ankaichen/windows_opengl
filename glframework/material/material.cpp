@@ -34,4 +34,12 @@ void Material::bind() const {
         glDisable(GL_POLYGON_OFFSET_FILL);
         glDisable(GL_POLYGON_OFFSET_LINE);
     }
+    if (this->mStencilTest) {
+        glEnable(GL_STENCIL_TEST);
+        glStencilOp(this->mFail, this->mZFail, this->mZPass);
+        glStencilFunc(this->mStencilFunc, this->mStencilRef, this->mStencilFuncMask);
+        glStencilMask(this->mStencilMask);
+    } else {
+        glDisable(GL_STENCIL_TEST);
+    }
 }

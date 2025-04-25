@@ -44,6 +44,22 @@ public:
         this->mUnit = unit;
     }
 
+    void setStencilTest(bool stencilTest) { this->mStencilTest = stencilTest; }
+
+    void setStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
+        this->mFail = fail;
+        this->mZFail = zfail;
+        this->mZPass = zpass;
+    }
+
+    void setStencilMask(GLuint stencilMask) { this->mStencilMask = stencilMask; }
+
+    void setStencilFunc(GLenum stencilFunc) { this->mStencilFunc = stencilFunc; }
+
+    void setStencilRef(GLuint stencilRef) { this->mStencilRef = stencilRef; }
+
+    void setStencilFuncMask(GLuint stencilFuncMask) { this->mStencilFuncMask = stencilFuncMask; }
+
 protected:
     const MaterialType mMaterialType{};
     // 深度检测
@@ -55,6 +71,13 @@ protected:
     GLenum mPolygonOffsetType{GL_POLYGON_OFFSET_FILL};
     float mFactor{0.f};
     float mUnit{0.f};
+    // stencil
+    bool mStencilTest{true};
+    GLenum mFail{GL_KEEP}, mZFail{GL_KEEP}, mZPass{GL_KEEP};
+    GLuint mStencilMask{0xff};
+    GLenum mStencilFunc{GL_ALWAYS};
+    GLuint mStencilRef{0};
+    GLuint mStencilFuncMask{0xff};
 };
 
 

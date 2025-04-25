@@ -91,42 +91,42 @@ void prepareCamera() {
 //    cameraController = std::make_unique<GameCameraController>(camera, 0.2f, 0.2f, 0.1f);
 }
 
-void prepareScenes() {
-//    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
-//    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
-    objects.push_back(std::make_shared<Mesh>(
-            Geometry::createPlane(900.f, 600.f),
-            std::make_shared<PhongMaterial>(
-                    Texture::createTexture("assets/textures/box.png", 0),
-                    Texture::createTexture("assets/textures/sp_mask.png", 1),
-                    32.f)
-    ));
-    auto pnong = std::make_shared<PhongMaterial>(
-            Texture::createTexture("assets/textures/default.jpg", 0),
-            Texture::createTexture("assets/textures/white.jpg", 1),
-            32.f);
-    pnong->setDepthWrite(true);
-    pnong->setPolygonOffset(true);
-    pnong->setPolygonOffsetType(GL_POLYGON_OFFSET_FILL);
-    pnong->setPolygonOffsetParameters(1.f, 1.f);
-    objects.push_back(std::make_shared<Mesh>(
-            Geometry::createPlane(900.f, 600.f),
-            std::move(pnong)
-    ));
+//void prepareScenes() {
+////    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
+////    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/bag/backpack.obj");
 //    objects.push_back(std::make_shared<Mesh>(
-//            Geometry::createPlane(5.f, 5.f),
+//            Geometry::createPlane(900.f, 600.f),
 //            std::make_shared<PhongMaterial>(
-//                    Texture::createTexture("assets/textures/earth.jpg", 0),
-//                    Texture::createTexture("assets/textures/white.jpg", 1),
+//                    Texture::createTexture("assets/textures/box.png", 0),
+//                    Texture::createTexture("assets/textures/sp_mask.png", 1),
 //                    32.f)
 //    ));
-
-    objects[1]->setPosition(glm::vec3{2.f, 0.5f, -0.5f});
-//    objects[2]->setPosition(glm::vec3{4.f, 1.f, -2.f});
-
-objects[0]->rotateX(-88.f);
-objects[1]->rotateX(-88.f);
-}
+//    auto pnong = std::make_shared<PhongMaterial>(
+//            Texture::createTexture("assets/textures/default.jpg", 0),
+//            Texture::createTexture("assets/textures/white.jpg", 1),
+//            32.f);
+//    pnong->setDepthWrite(true);
+//    pnong->setPolygonOffset(true);
+//    pnong->setPolygonOffsetType(GL_POLYGON_OFFSET_FILL);
+//    pnong->setPolygonOffsetParameters(1.f, 1.f);
+//    objects.push_back(std::make_shared<Mesh>(
+//            Geometry::createPlane(900.f, 600.f),
+//            std::move(pnong)
+//    ));
+////    objects.push_back(std::make_shared<Mesh>(
+////            Geometry::createPlane(5.f, 5.f),
+////            std::make_shared<PhongMaterial>(
+////                    Texture::createTexture("assets/textures/earth.jpg", 0),
+////                    Texture::createTexture("assets/textures/white.jpg", 1),
+////                    32.f)
+////    ));
+//
+//    objects[1]->setPosition(glm::vec3{2.f, 0.5f, -0.5f});
+////    objects[2]->setPosition(glm::vec3{4.f, 1.f, -2.f});
+//
+//    objects[0]->rotateX(-88.f);
+//    objects[1]->rotateX(-88.f);
+//}
 
 //void prepareScenes() {
 ////    std::shared_ptr<Object> obj = AssimpLoader::load("assets/fbx/Dragon 2.5_fbx.fbx");
@@ -147,6 +147,59 @@ objects[1]->rotateX(-88.f);
 //    objects[1]->setPosition(glm::vec3{2.f, 0.5f, -1.f});
 //    objects[2]->setPosition(glm::vec3{4.f, 1.f, -2.f});
 //}
+
+void prepareScenes() {
+    std::shared_ptr<Geometry> geo1 = Geometry::createBox(5.f);
+    std::shared_ptr<Texture> boxTexture1 = Texture::createTexture("assets/textures/box.png", 0);
+    std::shared_ptr<Texture> spTexture1 = Texture::createTexture("assets/textures/sp_mask.png", 1);
+    auto pnongMaterial1 = std::make_shared<PhongMaterial>(boxTexture1, spTexture1, 32.f);
+    pnongMaterial1->setStencilTest(true);
+    pnongMaterial1->setStencilMask(0xff);
+    pnongMaterial1->setStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    pnongMaterial1->setStencilFunc(GL_ALWAYS);
+    pnongMaterial1->setStencilRef(1);
+    pnongMaterial1->setStencilFuncMask(0xff);
+    auto whiteMaterial1 = std::make_shared<LightMaterial>(glm::vec3{1.f, 1.f, 1.f});
+    whiteMaterial1->setDepthTest(false);
+    whiteMaterial1->setStencilTest(true);
+    whiteMaterial1->setStencilMask(0x00);
+    whiteMaterial1->setStencilFunc(GL_NOTEQUAL);
+    whiteMaterial1->setStencilRef(1);
+    whiteMaterial1->setStencilMask(0xff);
+    auto mesh11 = std::make_shared<Mesh>(geo1, std::move(pnongMaterial1));
+    auto mesh21 = std::make_shared<Mesh>(geo1, std::move(whiteMaterial1));
+    mesh21->setScale(glm::vec3{1.01f});
+    mesh11->setPosition(glm::vec3{2.f, 1.f, -1.f});
+    mesh21->setPosition(mesh11->getPosition());
+    objects.push_back(std::move(mesh11));
+    objects.push_back(std::move(mesh21));
+
+
+    std::shared_ptr<Geometry> geo2 = Geometry::createBox(5.f);
+    std::shared_ptr<Texture> boxTexture2 = Texture::createTexture("assets/textures/box.png", 0);
+    std::shared_ptr<Texture> spTexture2 = Texture::createTexture("assets/textures/sp_mask.png", 1);
+    auto pnongMaterial2 = std::make_shared<PhongMaterial>(boxTexture2, spTexture2, 32.f);
+    pnongMaterial2->setStencilTest(true);
+    pnongMaterial2->setStencilMask(0xff);
+    pnongMaterial2->setStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    pnongMaterial2->setStencilFunc(GL_ALWAYS);
+    pnongMaterial2->setStencilRef(1);
+    pnongMaterial2->setStencilFuncMask(0xff);
+    auto whiteMaterial2 = std::make_shared<LightMaterial>(glm::vec3{1.f, 1.f, 1.f});
+    whiteMaterial2->setDepthTest(false);
+    whiteMaterial2->setStencilTest(true);
+    whiteMaterial2->setStencilMask(0x00);
+    whiteMaterial2->setStencilFunc(GL_NOTEQUAL);
+    whiteMaterial2->setStencilRef(1);
+    whiteMaterial2->setStencilMask(0xff);
+    auto mesh12 = std::make_shared<Mesh>(geo2, std::move(pnongMaterial2));
+    auto mesh22 = std::make_shared<Mesh>(geo2, std::move(whiteMaterial2));
+    mesh22->setScale(glm::vec3{1.01f});
+    mesh12->setPosition(glm::vec3{-2.f, -1.f, 1.f});
+    mesh22->setPosition(mesh12->getPosition());
+    objects.push_back(std::move(mesh12));
+    objects.push_back(std::move(mesh22));
+}
 
 void prepareLight() {
     lights.emplace_back(std::make_shared<DirectionalLight>(

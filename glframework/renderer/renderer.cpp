@@ -36,8 +36,11 @@ void Renderer::render(const std::vector<std::shared_ptr<Object>> &objects, const
     GL_CALL(glClearDepth(1.f));
     glDisable(GL_POLYGON_OFFSET_LINE);
     glDisable(GL_POLYGON_OFFSET_FILL);
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glStencilMask(0xff);
     // 清理画布
-    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
     // 绘制mesh
     for (const std::shared_ptr<const Object> &object: objects) {
         if (object == nullptr) {
